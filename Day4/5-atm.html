@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project 5 - ATM Withdrawal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .box {
+            background: #ffffff;
+            width: 380px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Mini Project 5</h2>
+    <p>ATM Cash Withdrawal System</p>
+
+    <script>
+        // User inputs
+        let balance = prompt("Enter your account balance:");
+        let withdraw = prompt("Enter withdrawal amount:");
+
+        balance = Number(balance);
+        withdraw = Number(withdraw);
+
+        // Display initial balance
+        document.write("<p>Account Balance: ₹" + balance + "</p>");
+        console.log("Account Balance:", balance);
+
+        // ATM logic
+        if (withdraw <= 0) {
+            document.write("<p class='error'>Invalid withdrawal amount</p>");
+            console.log("Invalid withdrawal amount");
+        }
+        else if (withdraw > balance) {
+            document.write("<p class='error'>Insufficient balance</p>");
+            console.log("Insufficient balance");
+        }
+        else {
+            balance = balance - withdraw;
+
+            document.write("<p class='success'>Withdrawal Successful!</p>");
+            document.write("<p>Withdrawn Amount: ₹" + withdraw + "</p>");
+            document.write("<p>Remaining Balance: ₹" + balance + "</p>");
+
+            console.log("Withdrawal Successful");
+            console.log("Withdrawn:", withdraw);
+            console.log("Remaining Balance:", balance);
+        }
+    </script>
+</div>
+
+</body>
+</html>

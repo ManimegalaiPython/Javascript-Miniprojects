@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Online Food Ordering System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#F5EBDD;
+    padding:40px;
+}
+
+.container{
+    max-width:650px;
+    margin:auto;
+    background:#fff;
+    padding:25px;
+    border-radius:8px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+    color:#B89C65;
+}
+
+label{
+    font-weight:600;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:6px 0 15px;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+button{
+    background:#B89C65;
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    margin:5px 0;
+    cursor:pointer;
+    border-radius:5px;
+    font-size:16px;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+.output{
+    margin-top:20px;
+    background:#F5F5F5;
+    padding:15px;
+    border-radius:6px;
+    line-height:1.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Online Food Ordering System</h2>
+
+    <!-- Order Inputs -->
+    <label>Restaurant Name</label>
+    <input type="text" id="restaurant" value="Grant Buffet">
+
+    <label>Order Number</label>
+    <input type="number" id="orderNo" value="1001">
+
+    <label>Food Item</label>
+    <input type="text" id="foodItem" placeholder="Enter food item">
+
+    <label>Total Price (₹)</label>
+    <input type="number" id="price" value="1000">
+
+    <!-- Buttons -->
+    <button onclick="addFood()">Add Item</button>
+    <button onclick="removeFood()">Remove Item</button>
+    <button onclick="showOrder()">Show Order Summary</button>
+    <button onclick="deliver()">Mark as Delivered</button>
+
+    <!-- Output -->
+    <div class="output" id="output"></div>
+</div>
+
+<script>
+// Order Object
+let order = {
+    restaurantName: "",
+    orderNumber: 0,
+    items: [],
+    totalPrice: 0,
+    isDelivered: false
+};
+
+// Add food item
+function addFood(){
+    let item = document.getElementById("foodItem").value;
+    if(item !== ""){
+        order.items.push(item);
+        alert(item + " added");
+        document.getElementById("foodItem").value = "";
+    }
+}
+
+// Remove food item
+function removeFood(){
+    let item = document.getElementById("foodItem").value;
+    let index = order.items.indexOf(item);
+    if(index !== -1){
+        order.items.splice(index,1);
+        alert(item + " removed");
+    } else {
+        alert("Item not found");
+    }
+    document.getElementById("foodItem").value = "";
+}
+
+// Display order
+function showOrder(){
+    order.restaurantName = document.getElementById("restaurant").value;
+    order.orderNumber = document.getElementById("orderNo").value;
+    order.totalPrice = document.getElementById("price").value;
+
+    document.getElementById("output").innerHTML = `
+        <strong>Restaurant:</strong> ${order.restaurantName}<br>
+        <strong>Order No:</strong> ${order.orderNumber}<br>
+        <strong>Food Items:</strong> ${order.items.join(", ")}<br>
+        <strong>Total Price:</strong> ₹${order.totalPrice}<br>
+        <strong>Status:</strong> ${order.isDelivered ? "Delivered ✅" : "Not Delivered ❌"}
+    `;
+}
+
+// Update delivery status
+function deliver(){
+    order.isDelivered = true;
+    alert("Order Delivered!");
+    showOrder();
+}
+</script>
+
+</body>
+</html>

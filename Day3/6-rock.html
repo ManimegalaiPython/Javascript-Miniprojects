@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project 6 - Rock Paper Scissors</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .game-box {
+            background: white;
+            width: 350px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .result {
+            font-weight: bold;
+            font-size: 18px;
+            color: #0066cc;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="game-box">
+    <h2>Mini Project 6</h2>
+    <p>Rock - Paper - Scissors Game</p>
+
+    <script>
+        // Player input
+        let playerChoice = prompt("Choose rock, paper, or scissors:");
+        playerChoice = playerChoice.toLowerCase();
+
+        // Computer choice
+        let choices = ["rock", "paper", "scissors"];
+        let computerChoice = choices[Math.floor(Math.random() * 3)];
+
+        // Display choices
+        document.write("<p>Player Choice: " + playerChoice + "</p>");
+        document.write("<p>Computer Choice: " + computerChoice + "</p>");
+
+        console.log("Player Choice:", playerChoice);
+        console.log("Computer Choice:", computerChoice);
+
+        // Game logic
+        if (playerChoice === computerChoice) {
+            document.write("<p class='result'>Result: It's a Tie!</p>");
+            console.log("Result: It's a Tie!");
+        }
+        else if (
+            (playerChoice === "rock" && computerChoice === "scissors") ||
+            (playerChoice === "paper" && computerChoice === "rock") ||
+            (playerChoice === "scissors" && computerChoice === "paper")
+        ) {
+            document.write("<p class='result'>Result: You Win!</p>");
+            console.log("Result: You Win!");
+        }
+        else if (
+            playerChoice === "rock" ||
+            playerChoice === "paper" ||
+            playerChoice === "scissors"
+        ) {
+            document.write("<p class='result'>Result: Computer Wins!</p>");
+            console.log("Result: Computer Wins!");
+        }
+        else {
+            document.write("<p class='result'>Invalid choice entered</p>");
+            console.log("Invalid choice entered");
+        }
+    </script>
+</div>
+
+</body>
+</html>

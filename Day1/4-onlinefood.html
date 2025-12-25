@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Online Food Ordering System</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f5f5f5;
+    padding:30px;
+    console
+}
+
+.container{
+    max-width:600px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    text-align:center;
+}
+
+img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-radius:6px;
+}
+
+h2{
+    margin:15px 0;
+}
+
+button{
+    background:#ff5722;
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    margin:6px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#e64a19;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <img src="images/food.jpg" alt="Food Image">
+    <h2>Online Food Ordering System</h2>
+
+    <button onclick="showOrder()">Show Order Summary</button>
+    <button onclick="deliverOrder()">Deliver Order</button>
+    <button onclick="addItem()">Add Item</button>
+    <button onclick="removeItem()">Remove Item</button>
+</div>
+
+<script>
+/* ==============================
+   1. Store Order Details
+================================ */
+
+// String
+let restaurantName = "Spice Hub";
+
+// Number
+let orderNumber = 101;
+
+// Array
+let items = ["Pizza", "Burger", "Pasta"];
+
+// Number
+let totalPrice = 900;
+
+// Boolean
+let isDelivered = false;
+
+/* ==============================
+   2. Display Order Summary
+================================ */
+function showOrder(){
+    console.clear();
+    console.log("------ ORDER SUMMARY ------");
+    console.log("Restaurant Name:", restaurantName);
+    console.log("Order Number:", orderNumber);
+    console.log("Items:", items);
+    console.log("Total Price: ₹" + totalPrice);
+    console.log("Delivered:", isDelivered);
+}
+
+/* ==============================
+   3. Update Order Status
+================================ */
+function deliverOrder(){
+    isDelivered = true;
+    console.log("Order Delivered Successfully!");
+    console.log("Delivered:", isDelivered);
+}
+
+/* ==============================
+   4. Add & Remove Items
+================================ */
+function addItem(){
+    items.push("Ice Cream");
+    totalPrice += 120;
+    console.log("Item Added!");
+    console.log("Items:", items);
+}
+
+function removeItem(){
+    items.pop();
+    totalPrice -= 120;
+    console.log("Item Removed!");
+    console.log("Items:", items);
+}
+</script>
+
+</body>
+</html>

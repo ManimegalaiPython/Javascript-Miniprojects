@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Quiz System</title>
+
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            margin: 8px 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        pre {
+            background-color: #ffffff;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Online Quiz System</h2>
+
+<button onclick="showQuiz()">Show Quiz</button>
+<button onclick="answerQuiz()">Answer Quiz</button>
+<button onclick="showResult()">Show Result</button>
+
+<pre id="output"></pre>
+
+<!-- JavaScript -->
+<script>
+    // 1. Store Quiz Details (Multiple Questions)
+    let questions = [
+        {
+            question: "What is the capital of India?",
+            options: ["Delhi", "Mumbai", "Chennai", "Kolkata"],
+            correctAnswer: "Delhi",
+            userAnswer: ""
+        },
+        {
+            question: "Which language is used for web development?",
+            options: ["Python", "JavaScript", "C", "Java"],
+            correctAnswer: "JavaScript",
+            userAnswer: ""
+        }
+    ];
+
+    let score = 0;
+
+    // Display quiz questions
+    function showQuiz() {
+        let text = "";
+        for (let i = 0; i < questions.length; i++) {
+            text += "Q" + (i + 1) + ": " + questions[i].question + "\n";
+            text += "Options: " + questions[i].options.join(", ") + "\n\n";
+        }
+        document.getElementById("output").innerText = text;
+    }
+
+    // 2. Validate User Answer
+    function answerQuiz() {
+        score = 0;
+
+        for (let i = 0; i < questions.length; i++) {
+            let answer = prompt(
+                questions[i].question + "\n" +
+                questions[i].options.join(", ")
+            );
+
+            questions[i].userAnswer = answer;
+
+            if (answer === questions[i].correctAnswer) {
+                score++;
+            }
+        }
+    }
+
+    // 3. Display Quiz Results
+    function showResult() {
+        let result = "";
+
+        for (let i = 0; i < questions.length; i++) {
+            let isCorrect = (questions[i].userAnswer === questions[i].correctAnswer);
+
+            result += "Question: " + questions[i].question + "\n";
+            result += "Your Answer: " + questions[i].userAnswer + "\n";
+            result += "Correct Answer: " + questions[i].correctAnswer + "\n";
+            result += "Correct: " + isCorrect + "\n\n";
+        }
+
+        result += "Final Score: " + score + "/" + questions.length;
+
+        document.getElementById("output").innerText = result;
+    }
+</script>
+
+</body>
+</html>

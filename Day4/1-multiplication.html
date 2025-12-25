@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project 1 - Multiplication Table</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .box {
+            background: #ffffff;
+            width: 320px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 6px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Mini Project 1</h2>
+    <p>Multiplication Table Generator</p>
+
+    <script>
+        // Ask user to enter a number
+        let num = prompt("Enter a number to generate multiplication table:");
+
+        // Convert to number
+        num = Number(num);
+
+        // Loop from 1 to 10
+        for (let i = 1; i <= 10; i++) {
+            let result = num * i;
+
+            // Display on webpage
+            document.write("<p>" + num + " x " + i + " = " + result + "</p>");
+
+            // Display in console
+            console.log(num + " x " + i + " = " + result);
+        }
+    </script>
+</div>
+
+</body>
+</html>

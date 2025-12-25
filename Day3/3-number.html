@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Number Guessing Game</title>
+
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #F5EBDD;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            doubt
+        }
+
+        .box {
+            background: #fff;
+            padding: 30px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #B89C65;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Number Guessing Game</h2>
+    <p>Check console & page for result</p>
+</div>
+
+<!-- JavaScript -->
+<script>
+    // Generate a random number between 1 and 5
+    let randomNumber = Math.floor(Math.random() * 5) + 1;
+
+    // User input
+    let userGuess = Number(prompt("Guess a number between 1 and 5:"));
+
+    let message = "";
+
+    // Check guess
+    if (userGuess === randomNumber) {
+        message = "🎉 Correct Guess! You won!";
+    } else {
+        message = "❌ Wrong Guess! The correct number was " + randomNumber;
+    }
+
+    // Console output
+    console.log(message);
+
+    // Document output
+    document.write("<h3>" + message + "</h3>");
+</script>
+
+</body>
+</html>

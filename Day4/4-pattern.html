@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project 4 - Pattern Generator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .box {
+            background: #ffffff;
+            width: 360px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        pre {
+            font-size: 18px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Mini Project 4</h2>
+    <p>Star Pattern Generator</p>
+
+    <pre>
+<script>
+    // Ask user for number of rows
+    let rows = prompt("Enter number of rows:");
+    rows = Number(rows);
+
+    let pattern = "";
+
+    // Outer loop for rows
+    for (let i = 1; i <= rows; i++) {
+        // Inner loop for stars
+        for (let j = 1; j <= i; j++) {
+            pattern += "* ";
+        }
+        pattern += "\n";
+    }
+
+    // Display pattern
+    document.write(pattern);
+    console.log(pattern);
+</script>
+    </pre>
+</div>
+
+</body>
+</html>

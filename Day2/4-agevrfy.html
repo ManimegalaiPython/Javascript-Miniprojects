@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Age Verification System</title>
+
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #F5EBDD;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #B89C65;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #B89C65;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #a48752;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Signup Page</h2>
+
+        <label>Enter Your Age</label>
+        <input type="number" id="age" placeholder="Enter age">
+
+        <button onclick="checkAge()">Sign Up</button>
+
+        <p id="result"></p>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function checkAge() {
+
+            // 1. Store user's age in a variable
+            let userAge = document.getElementById("age").value;
+
+            // 2. Check age using comparison operator
+            if (userAge >= 18) {
+                console.log("Access Granted"); // console output
+                document.getElementById("result").innerText = "Access Granted";
+                document.getElementById("result").style.color = "green";
+            } else {
+                console.log("Access Denied"); // console output
+                document.getElementById("result").innerText = "Access Denied";
+                document.getElementById("result").style.color = "red";
+            }
+        }
+    </script>
+
+</body>
+</html>

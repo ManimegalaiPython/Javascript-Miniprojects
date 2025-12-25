@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Simple Interest Calculator</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container{
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+h2{
+    color: #333;
+    margin-bottom: 20px;
+}
+button{
+    padding: 12px 25px;
+    background: #4CAF50;
+    color: #fff;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-size: 16px;
+}
+button:hover{
+    background:#45a049;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Simple Interest Calculator</h2>
+    <button onclick="calculateSI()">Calculate SI</button>
+</div>
+
+<script>
+function calculateSI(){
+    // 1. Input using prompt
+    let principal = parseFloat(prompt("Enter Principal Amount (P):"));
+    let rate = parseFloat(prompt("Enter Rate of Interest (R) in %:"));
+    let time = parseFloat(prompt("Enter Time (T) in years:"));
+
+    // Validation
+    if(isNaN(principal) || isNaN(rate) || isNaN(time)){
+        alert("Please enter valid numeric values!");
+        return;
+    }
+
+    // 2. Calculate Simple Interest
+    let si = (principal * rate * time) / 100;
+
+    // 3. Total Amount
+    let totalAmount = principal + si;
+
+    // 4. Output using alert
+    alert("Simple Interest: ₹ " + si.toFixed(2) + 
+          "\nTotal Amount Payable: ₹ " + totalAmount.toFixed(2));
+}
+</script>
+
+</body>
+</html>

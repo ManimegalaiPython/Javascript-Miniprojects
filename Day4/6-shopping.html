@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project 6 - Shopping Cart</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .box {
+            background: #ffffff;
+            width: 420px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 6px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Mini Project 6</h2>
+    <p>Shopping Cart System</p>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        while (true) {
+            let action = prompt(
+                "Type 'add' to add item\n" +
+                "Type 'remove' to remove item\n" +
+                "Type 'exit' to finish shopping"
+            );
+
+            if (action === null) break;
+            action = action.toLowerCase();
+
+            // Exit shopping
+            if (action === "exit") {
+                break;
+            }
+
+            // Add item
+            if (action === "add") {
+                let itemName = prompt("Enter item name:");
+                let itemPrice = prompt("Enter item price:");
+
+                itemPrice = Number(itemPrice);
+
+                if (itemName && itemPrice > 0) {
+                    cart.push({ name: itemName, price: itemPrice });
+                    total += itemPrice;
+
+                    console.log("Added:", itemName, itemPrice);
+                } else {
+                    console.log("Invalid item details");
+                }
+            }
+
+            // Remove item
+            else if (action === "remove") {
+                let removeItem = prompt("Enter item name to remove:");
+                let found = false;
+
+                for (let i = 0; i < cart.length; i++) {
+                    if (cart[i].name === removeItem) {
+                        total -= cart[i].price;
+                        console.log("Removed:", cart[i].name, cart[i].price);
+                        cart.splice(i, 1);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    console.log("Item not found in cart");
+                }
+            }
+
+            else {
+                console.log("Invalid action");
+            }
+        }
+
+        // Display cart items
+        document.write("<h3>Cart Items</h3>");
+
+        if (cart.length === 0) {
+            document.write("<p>Cart is empty</p>");
+        } else {
+            for (let i = 0; i < cart.length; i++) {
+                document.write("<p>" + cart[i].name + " - ₹" + cart[i].price + "</p>");
+            }
+        }
+
+        document.write("<h3>Total Amount: ₹" + total + "</h3>");
+        console.log("Total Amount:", total);
+    </script>
+</div>
+
+</body>
+</html>

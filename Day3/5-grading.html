@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project 5 - Grading System</title>
+</head>
+<body>
+
+<h2>Mini Project 5: Grading System with Remarks</h2>
+
+<script>
+    // Ask user to enter marks
+    let marks = prompt("Enter your marks (0 - 100):");
+
+    // Convert to number
+    marks = Number(marks);
+
+    // Grading system with remarks
+    if (marks >= 90 && marks <= 100) {
+        console.log("Grade: A+");
+        console.log("Remark: Excellent");
+
+        document.write("Grade: A+<br>");
+        document.write("Remark: Excellent");
+    }
+    else if (marks >= 80 && marks <= 89) {
+        console.log("Grade: A");
+        console.log("Remark: Good");
+
+        document.write("Grade: A<br>");
+        document.write("Remark: Good");
+    }
+    else if (marks >= 70 && marks <= 79) {
+        console.log("Grade: B");
+        console.log("Remark: Average");
+
+        document.write("Grade: B<br>");
+        document.write("Remark: Average");
+    }
+    else if (marks >= 60 && marks <= 69) {
+        console.log("Grade: C");
+        console.log("Remark: Poor");
+
+        document.write("Grade: C<br>");
+        document.write("Remark: Poor");
+    }
+    else if (marks >= 0 && marks < 60) {
+        console.log("Grade: F");
+        console.log("Remark: Fail");
+
+        document.write("Grade: F<br>");
+        document.write("Remark: Fail");
+    }
+    else {
+        console.log("Invalid marks entered");
+        document.write("Invalid marks entered");
+    }
+</script>
+
+</body>
+</html>

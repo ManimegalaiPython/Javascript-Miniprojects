@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Converter</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#e3f2fd;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .container{
+            background:#fff;
+            padding:30px;
+            width:350px;
+            text-align:center;
+            border-radius:10px;
+            box-shadow:0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        h2{
+            margin-bottom:20px;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            font-size:16px;
+            margin-bottom:15px;
+            border-radius:6px;
+            border:1px solid #ccc;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            font-size:18px;
+            background:#2196f3;
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#1976d2;
+        }
+
+        .result{
+            margin-top:20px;
+            font-size:20px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Temperature Converter</h2>
+
+    <input type="number" id="celsius" placeholder="Enter Celsius">
+
+    <button onclick="convertTemp()">Convert</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function convertTemp(){
+        // 1. Store Celsius value
+        let celsius = document.getElementById("celsius").value;
+
+        // 2. Convert to Fahrenheit
+        let fahrenheit = (celsius * 9/5) + 32;
+
+        // 3. Display result in console
+        console.log("Celsius:", celsius);
+        console.log("Fahrenheit:", fahrenheit);
+
+        // 4. Display on screen
+        document.getElementById("result").innerText =
+            celsius + "°C = " + fahrenheit + "°F";
+    }
+</script>
+
+</body>
+</html>

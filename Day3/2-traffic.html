@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Traffic Light System</title>
+
+    <!-- CSS -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #F5EBDD;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box {
+            background: #fff;
+            padding: 30px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #B89C65;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Traffic Light System</h2>
+    <p>Output shown below & in console</p>
+</div>
+
+<!-- JavaScript -->
+<script>
+    // Take user input
+    let color = prompt("Enter traffic light color (red, yellow, green):");
+
+    // Convert to lowercase
+    color = color.toLowerCase();
+
+    let message = "";
+
+    // Conditions
+    if (color === "red") {
+        message = "Stop!";
+    } else if (color === "yellow") {
+        message = "Slow down!";
+    } else if (color === "green") {
+        message = "Go!";
+    } else {
+        message = "Invalid color!";
+    }
+
+    // Console output
+    console.log(message);
+
+    // Document output
+    document.write("<h3>" + message + "</h3>");
+</script>
+
+</body>
+</html>

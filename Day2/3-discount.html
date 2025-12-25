@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Discount Calculator</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f1f8e9;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .container{
+            background:#fff;
+            padding:30px;
+            width:360px;
+            border-radius:10px;
+            box-shadow:0 4px 12px rgba(0,0,0,0.2);
+            text-align:center;
+        }
+
+        h2{
+            margin-bottom:20px;
+            color:#2e7d32;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            font-size:16px;
+            margin-bottom:15px;
+            border-radius:6px;
+            border:1px solid #ccc;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            font-size:18px;
+            background:#4caf50;
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#388e3c;
+        }
+
+        .result{
+            margin-top:20px;
+            font-size:18px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Discount Calculator</h2>
+
+    <input type="number" id="price" placeholder="Enter Product Price">
+    <input type="number" id="discount" placeholder="Enter Discount %">
+
+    <button onclick="calculateDiscount()">Calculate</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function calculateDiscount(){
+        // 1. Store values
+        let price = Number(document.getElementById("price").value);
+        let discount = Number(document.getElementById("discount").value);
+
+        // 2. Calculate discount amount
+        let discountAmount = (price * discount) / 100;
+
+        // 3. Calculate final price
+        let finalPrice = price - discountAmount;
+
+        // 4. Console output
+        console.log("Original Price:", price);
+        console.log("Discount Percentage:", discount + "%");
+        console.log("Discount Amount:", discountAmount);
+        console.log("Final Price:", finalPrice);
+
+        // 5. Display result
+        document.getElementById("result").innerHTML =
+            "Discount Amount: ₹" + discountAmount + "<br>" +
+            "Final Price: ₹" + finalPrice;
+    }
+</script>
+
+</body>
+</html>

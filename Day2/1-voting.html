@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Voting Eligibility System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:#fff;
+    padding:30px 40px;
+    border-radius:10px;
+    width:350px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+h2{
+    margin-bottom:20px;
+    color:#333;
+}
+
+label{
+    display:block;
+    text-align:left;
+    margin:10px 0 5px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    margin-top:20px;
+    padding:12px;
+    width:100%;
+    background:#28a745;
+    color:#fff;
+    border:none;
+    font-size:18px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#218838;
+}
+
+.result{
+    margin-top:20px;
+    font-size:18px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Voting Eligibility</h2>
+
+    <label>Age</label>
+    <input type="number" id="age">
+
+    <label>Country</label>
+    <input type="text" id="citizen" placeholder="Enter country name">
+
+    <button onclick="checkEligibility()">Check Eligibility</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function checkEligibility() {
+    let age = Number(document.getElementById("age").value);
+    let citizen = document.getElementById("citizen").value;
+
+    if (age >= 18 && citizen === "India") {
+        console.log("Eligible to Vote");
+        document.getElementById("result").innerHTML = "✅ Eligible to Vote";
+        document.getElementById("result").style.color = "green";
+    } else {
+        console.log("Not Eligible to Vote");
+        document.getElementById("result").innerHTML = "❌ Not Eligible to Vote";
+        document.getElementById("result").style.color = "red";
+    }
+}
+</script>
+
+</body>
+</html>
