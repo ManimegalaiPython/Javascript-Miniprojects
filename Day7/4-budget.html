@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Budget Manager</title>
+<style>
+    body {
+        font-family: 'Nunito Sans', sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 { text-align: center; color: #4CAF50; }
+    .container {
+        max-width: 900px;
+        margin: auto;
+    }
+    .section {
+        background: white;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .input-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+    input[type="text"], input[type="number"], button {
+        flex: 1;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        flex: 0 0 auto;
+        background-color: #F29B03;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover { background-color: #d87b02; }
+
+    .transaction-card {
+        background-color: #f0f0f0;
+        padding: 8px 10px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .transaction-card.income { border-left: 5px solid #4CAF50; }
+    .transaction-card.expense { border-left: 5px solid red; }
+
+    .totals {
+        display: flex;
+        justify-content: space-around;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Budget Manager</h1>
+
+    <div class="section">
+        <h3>Add Income</h3>
+        <div class="input-group">
+            <input type="text" id="incomeDesc" placeholder="Description">
+            <input type="number" id="incomeAmount" placeholder="Amount">
+            <button onclick="addIncome()">Add Income</button>
+        </div>
+        <div id="incomeList"></div>
+    </div>
+
+    <div class="section">
+        <h3>Add Expense</h3>
+        <div class="input-group">
+            <input type="text" id="expenseDesc" placeholder="Description">
+            <input type="number" id="expenseAmount" placeholder="Amount">
+            <button onclick="addExpense()">Add Expense</button>
+        </div>
+        <div id="expenseList"></div>
+    </div>
+
+    <div class="section totals">
+        <div>Total Income: <span id="totalIncome">$0</span></div>
+        <div>Total Expense: <span id="totalExpense">$0</span></div>
+        <div>Balance: <span id="balance">$0</span></div>
+    </div>
+</div>
+
+<script>
+    // Factory function for transactions
+    const Transaction = (description, amount) => ({ description, amount });
+
+    let incomes = [];
+    let expenses = [];
+
+    function updateUI() {
+        // Calculate totals
+        const totalIncome = incomes.reduce((sum, inc) => sum + inc.amount, 0);
+        const totalExpense = expenses.reduce((sum, exp) => sum + exp.amount, 0);
+        const balance = totalIncome - totalExpense;
+
+        document.getElementById("totalIncome").textContent = `$${totalIncome.toFixed(2)}`;
+        document.getElementById("totalExpense").textContent = `$${totalExpense.toFixed(2)}`;
+        document.getElementById("balance").textContent = `$${balance.toFixed(2)}`;
+
+        // Display incomes
+        const incomeList = document.getElementById("incomeList");
+        incomeList.innerHTML = "";
+        incomes.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "transaction-card income";
+            div.textContent = `${item.description} : $${item.amount.toFixed(2)}`;
+            incomeList.appendChild(div);
+        });
+
+        // Display expenses
+        const expenseList = document.getElementById("expenseList");
+        expenseList.innerHTML = "";
+        expenses.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "transaction-card expense";
+            div.textContent = `${item.description} : $${item.amount.toFixed(2)}`;
+            expenseList.appendChild(div);
+        });
+    }
+
+    function addIncome() {
+        const desc = document.getElementById("incomeDesc").value.trim();
+        const amount = parseFloat(document.getElementById("incomeAmount").value);
+        if(desc && !isNaN(amount) && amount > 0){
+            incomes.push(Transaction(desc, amount));
+            document.getElementById("incomeDesc").value = "";
+            document.getElementById("incomeAmount").value = "";
+            updateUI();
+        } else alert("Enter valid income details!");
+    }
+
+    function addExpense() {
+        const desc = document.getElementById("expenseDesc").value.trim();
+        const amount = parseFloat(document.getElementById("expenseAmount").value);
+        if(desc && !isNaN(amount) && amount > 0){
+            expenses.push(Transaction(desc, amount));
+            document.getElementById("expenseDesc").value = "";
+            document.getElementById("expenseAmount").value = "";
+            updateUI();
+        } else alert("Enter valid expense details!");
+    }
+
+    // Initial display
+    updateUI();
+</script>
+</body>
+</html>

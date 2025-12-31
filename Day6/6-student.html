@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Record Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input[type="text"], input[type="number"], button {
+            padding: 5px;
+            margin: 5px 10px 5px 0;
+        }
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 70%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Record Management System</h1>
+
+    <h3>Add Student</h3>
+    <input type="text" id="studentName" placeholder="Name">
+    <input type="number" id="studentAge" placeholder="Age" min="1">
+    <input type="number" id="studentMarks" placeholder="Marks" min="0" max="100">
+    <button onclick="addStudent()">Add Student</button>
+
+    <h3>Student Records</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Marks</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable"></tbody>
+    </table>
+
+    <h3>Class Average Marks: <span id="classAverage">0</span></h3>
+
+    <script>
+        // 1. Student Data Storage
+        let students = [
+            { name: "Alice", age: 20, marks: 85 },
+            { name: "Bob", age: 21, marks: 78 },
+            { name: "Charlie", age: 19, marks: 92 }
+        ];
+
+        // Display students and calculate average
+        function displayStudents() {
+            let table = document.getElementById("studentTable");
+            table.innerHTML = "";
+            let totalMarks = 0;
+
+            // 2. Looping Through Students
+            students.forEach(student => {
+                totalMarks += student.marks;
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${student.name}</td>
+                    <td>${student.age}</td>
+                    <td>${student.marks}</td>
+                `;
+                table.appendChild(row);
+            });
+
+            // 3. Calculate Average Marks
+            let average = students.length ? totalMarks / students.length : 0;
+
+            // 4. Display Output
+            document.getElementById("classAverage").textContent = average.toFixed(2);
+        }
+
+        // Add new student
+        function addStudent() {
+            let name = document.getElementById("studentName").value.trim();
+            let age = parseInt(document.getElementById("studentAge").value);
+            let marks = parseFloat(document.getElementById("studentMarks").value);
+
+            if (!name || isNaN(age) || isNaN(marks) || age <= 0 || marks < 0 || marks > 100) {
+                alert("Please enter valid student details!");
+                return;
+            }
+
+            students.push({ name, age, marks });
+
+            document.getElementById("studentName").value = "";
+            document.getElementById("studentAge").value = "";
+            document.getElementById("studentMarks").value = "";
+
+            displayStudents();
+        }
+
+        // Initial display
+        displayStudents();
+    </script>
+</body>
+</html>

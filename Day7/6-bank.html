@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Bank Account</title>
+</head>
+<body>
+
+<h1>Bank Account Management</h1>
+
+<h3>Create Account</h3>
+Account Number: <input type="text" id="accountNumber"><br>
+Initial Balance: <input type="number" id="initialBalance"><br>
+<button onclick="createAccount()">Create Account</button>
+
+<div id="transactionSection" style="display:none;">
+    <h3>Transactions</h3>
+    Deposit Amount: <input type="number" id="depositAmount">
+    <button onclick="deposit()">Deposit</button><br><br>
+
+    Withdraw Amount: <input type="number" id="withdrawAmount">
+    <button onclick="withdraw()">Withdraw</button><br><br>
+
+    <h3>Current Balance: $<span id="currentBalance">0.00</span></h3>
+</div>
+
+<script>
+    // BankAccount constructor
+    function BankAccount(accountNumber, balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+
+        this.deposit = function(amount) {
+            if(amount > 0) this.balance += amount;
+            else alert("Enter a valid amount!");
+        }
+
+        this.withdraw = function(amount) {
+            if(amount > this.balance) alert("Insufficient balance!");
+            else if(amount > 0) this.balance -= amount;
+            else alert("Enter a valid amount!");
+        }
+
+        this.getBalance = function() {
+            return this.balance.toFixed(2);
+        }
+    }
+
+    let account;
+
+    function createAccount() {
+        const accNum = document.getElementById("accountNumber").value.trim();
+        const initBalance = parseFloat(document.getElementById("initialBalance").value);
+
+        if(!accNum || isNaN(initBalance) || initBalance < 0){
+            alert("Enter valid account details!");
+            return;
+        }
+
+        account = new BankAccount(accNum, initBalance);
+        document.getElementById("transactionSection").style.display = "block";
+        updateBalance();
+        alert("Account created successfully!");
+    }
+
+    function deposit() {
+        const amount = parseFloat(document.getElementById("depositAmount").value);
+        account.deposit(amount);
+        document.getElementById("depositAmount").value = "";
+        updateBalance();
+    }
+
+    function withdraw() {
+        const amount = parseFloat(document.getElementById("withdrawAmount").value);
+        account.withdraw(amount);
+        document.getElementById("withdrawAmount").value = "";
+        updateBalance();
+    }
+
+    function updateBalance() {
+        document.getElementById("currentBalance").textContent = account.getBalance();
+    }
+</script>
+
+</body>
+</html>

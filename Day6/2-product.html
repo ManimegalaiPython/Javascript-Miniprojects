@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Inventory System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            margin-top: 10px;
+        }
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 60%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td button {
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 3px 6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Inventory System</h1>
+
+    <h3>Add Product</h3>
+    <input type="text" id="productName" placeholder="Product Name">
+    <input type="number" id="productQty" placeholder="Quantity" min="1">
+    <button onclick="addProduct()">Add Product</button>
+
+    <h3>Remove Product</h3>
+    <input type="text" id="removeName" placeholder="Product Name">
+    <button onclick="removeProduct()">Remove Product</button>
+
+    <h3>Inventory</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="inventoryTable"></tbody>
+    </table>
+
+    <script>
+        // 1. Inventory Storage
+        let inventory = [
+            { name: "Laptop", quantity: 10 },
+            { name: "Mouse", quantity: 25 },
+            { name: "Keyboard", quantity: 15 }
+        ];
+
+        // Display Inventory
+        function displayInventory() {
+            let table = document.getElementById("inventoryTable");
+            table.innerHTML = "";
+
+            inventory.forEach((product, index) => {
+                let row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${product.name}</td>
+                    <td>${product.quantity}</td>
+                    <td><button onclick="deleteProduct(${index})">Delete</button></td>
+                `;
+
+                table.appendChild(row);
+            });
+        }
+
+        displayInventory();
+
+        // 2. Add Product Function
+        function addProduct() {
+            let name = document.getElementById("productName").value.trim();
+            let qty = parseInt(document.getElementById("productQty").value);
+
+            if (!name || isNaN(qty) || qty <= 0) {
+                alert("Please enter valid product name and quantity.");
+                return;
+            }
+
+            // Check if product already exists
+            let existing = inventory.find(p => p.name.toLowerCase() === name.toLowerCase());
+            if (existing) {
+                existing.quantity += qty;
+            } else {
+                inventory.push({ name, quantity: qty });
+            }
+
+            document.getElementById("productName").value = "";
+            document.getElementById("productQty").value = "";
+            displayInventory();
+        }
+
+        // 3. Remove Product Function
+        function removeProduct() {
+            let name = document.getElementById("removeName").value.trim();
+            if (!name) {
+                alert("Please enter a product name to remove.");
+                return;
+            }
+
+            let index = inventory.findIndex(p => p.name.toLowerCase() === name.toLowerCase());
+            if (index !== -1) {
+                inventory.splice(index, 1);
+                alert(`Product "${name}" removed.`);
+            } else {
+                alert("Product not found!");
+            }
+
+            document.getElementById("removeName").value = "";
+            displayInventory();
+        }
+
+        // Delete product from table button
+        function deleteProduct(index) {
+            let removed = inventory.splice(index, 1);
+            alert(`Product "${removed[0].name}" removed.`);
+            displayInventory();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Book Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input[type="text"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 70%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td button {
+            padding: 3px 6px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        td button.return {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Library Book Tracker</h1>
+
+    <h3>Borrow or Return Book</h3>
+    <input type="text" id="bookInput" placeholder="Enter book title">
+    <button onclick="borrowBook()">Borrow</button>
+    <button onclick="returnBook()">Return</button>
+
+    <h3>All Books</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="bookTable"></tbody>
+    </table>
+
+    <h3>Borrowed Books</h3>
+    <ul id="borrowedList"></ul>
+
+    <script>
+        // 1. Store book info
+        let books = [
+            { title: "The Alchemist", author: "Paulo Coelho", isBorrowed: false },
+            { title: "Harry Potter", author: "J.K. Rowling", isBorrowed: false },
+            { title: "1984", author: "George Orwell", isBorrowed: false },
+            { title: "The Hobbit", author: "J.R.R. Tolkien", isBorrowed: false }
+        ];
+
+        function displayBooks() {
+            let table = document.getElementById("bookTable");
+            table.innerHTML = "";
+            books.forEach((book, index) => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td>${book.isBorrowed ? "Borrowed" : "Available"}</td>
+                    <td>
+                        ${book.isBorrowed 
+                            ? `<button class="return" onclick="returnBook('${book.title}')">Return</button>` 
+                            : `<button onclick="borrowBook('${book.title}')">Borrow</button>`}
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+
+            displayBorrowedBooks();
+        }
+
+        function displayBorrowedBooks() {
+            let list = document.getElementById("borrowedList");
+            list.innerHTML = "";
+            books.filter(book => book.isBorrowed)
+                 .forEach(book => {
+                    let li = document.createElement("li");
+                    li.textContent = `${book.title} by ${book.author}`;
+                    list.appendChild(li);
+                 });
+        }
+
+        // 2. Borrow book
+        function borrowBook(titleInput) {
+            let title = titleInput || document.getElementById("bookInput").value.trim();
+            let book = books.find(b => b.title.toLowerCase() === title.toLowerCase());
+            if (!book) {
+                alert("Book not found!");
+            } else if (book.isBorrowed) {
+                alert(`"${book.title}" is already borrowed.`);
+            } else {
+                book.isBorrowed = true;
+                alert(`You have borrowed "${book.title}".`);
+            }
+            document.getElementById("bookInput").value = "";
+            displayBooks();
+        }
+
+        // 3. Return book
+        function returnBook(titleInput) {
+            let title = titleInput || document.getElementById("bookInput").value.trim();
+            let book = books.find(b => b.title.toLowerCase() === title.toLowerCase());
+            if (!book) {
+                alert("Book not found!");
+            } else if (!book.isBorrowed) {
+                alert(`"${book.title}" is not borrowed.`);
+            } else {
+                book.isBorrowed = false;
+                alert(`You have returned "${book.title}".`);
+            }
+            document.getElementById("bookInput").value = "";
+            displayBooks();
+        }
+
+        // Initial display
+        displayBooks();
+    </script>
+</body>
+</html>

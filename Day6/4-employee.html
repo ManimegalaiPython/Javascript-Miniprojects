@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input[type="text"], input[type="number"], button {
+            padding: 5px;
+            margin: 5px 10px 5px 0;
+        }
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 70%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Management System</h1>
+
+    <h3>Add Employee</h3>
+    <input type="text" id="empName" placeholder="Name">
+    <input type="text" id="empRole" placeholder="Role">
+    <input type="number" id="empSalary" placeholder="Salary" min="0">
+    <button onclick="addEmployee()">Add</button>
+
+    <h3>Remove Employee</h3>
+    <input type="text" id="removeName" placeholder="Employee Name">
+    <button onclick="removeEmployee()">Remove</button>
+
+    <h3>Employee List</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody id="employeeTable"></tbody>
+    </table>
+
+    <h3>Average Salary: <span id="avgSalary">0</span></h3>
+    <h3>All Roles: <span id="allRoles"></span></h3>
+
+    <script>
+        // 1. Store employees
+        let employees = [
+            { name: "Alice", role: "Developer", salary: 50000 },
+            { name: "Bob", role: "Designer", salary: 45000 },
+            { name: "Charlie", role: "Manager", salary: 60000 }
+        ];
+
+        function displayEmployees() {
+            let table = document.getElementById("employeeTable");
+            table.innerHTML = "";
+            employees.forEach(emp => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${emp.name}</td>
+                    <td>${emp.role}</td>
+                    <td>$${emp.salary.toFixed(2)}</td>
+                `;
+                table.appendChild(row);
+            });
+
+            calculateAverageSalary();
+            listRoles();
+        }
+
+        // 2. Add a new employee
+        function addEmployee() {
+            let name = document.getElementById("empName").value.trim();
+            let role = document.getElementById("empRole").value.trim();
+            let salary = parseFloat(document.getElementById("empSalary").value);
+
+            if (!name || !role || isNaN(salary) || salary < 0) {
+                alert("Please enter valid employee details.");
+                return;
+            }
+
+            employees.push({ name, role, salary });
+            document.getElementById("empName").value = "";
+            document.getElementById("empRole").value = "";
+            document.getElementById("empSalary").value = "";
+
+            displayEmployees();
+        }
+
+        // 3. Remove employee by name
+        function removeEmployee() {
+            let name = document.getElementById("removeName").value.trim();
+            let index = employees.findIndex(emp => emp.name.toLowerCase() === name.toLowerCase());
+
+            if (index !== -1) {
+                employees.splice(index, 1);
+                alert(`Employee "${name}" removed.`);
+            } else {
+                alert("Employee not found!");
+            }
+
+            document.getElementById("removeName").value = "";
+            displayEmployees();
+        }
+
+        // 4. Calculate average salary
+        function calculateAverageSalary() {
+            if (employees.length === 0) {
+                document.getElementById("avgSalary").textContent = "0";
+                return;
+            }
+            let total = employees.reduce((sum, emp) => sum + emp.salary, 0);
+            let avg = total / employees.length;
+            document.getElementById("avgSalary").textContent = `$${avg.toFixed(2)}`;
+        }
+
+        // 5. List all roles (no duplicates)
+        function listRoles() {
+            let roles = [...new Set(employees.map(emp => emp.role))];
+            document.getElementById("allRoles").textContent = roles.join(", ");
+        }
+
+        // Initial display
+        displayEmployees();
+    </script>
+</body>
+</html>

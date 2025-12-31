@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Formatter & Validator</title>
+</head>
+<body>
+
+<h2>Email Formatter & Validator</h2>
+
+Enter Email: <input type="text" id="email" style="width:300px;"><br><br>
+<button onclick="validateEmail()">Check Email</button>
+
+<h3 id="result"></h3>
+
+<script>
+function validateEmail() {
+    const email = document.getElementById("email").value.trim();
+
+    // Basic email regex pattern
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if(!email) {
+        alert("Please enter an email!");
+        return;
+    }
+
+    if(emailPattern.test(email)) {
+        // Split into username and domain
+        const [username, domain] = email.split("@");
+        document.getElementById("result").textContent =
+            `Valid Email! Username: "${username}", Domain: "${domain}"`;
+    } else {
+        document.getElementById("result").textContent = "Invalid Email Format!";
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Username Generator</title>
+</head>
+<body>
+
+<h2>Username Generator</h2>
+
+First Name: <input type="text" id="firstName"><br><br>
+Last Name: <input type="text" id="lastName"><br><br>
+<button onclick="generateUsername()">Generate Username</button>
+
+<h3>Generated Username: <span id="username"></span></h3>
+
+<script>
+function generateUsername() {
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+
+    if(firstName.length < 3 || lastName.length < 3){
+        alert("First and last name must have at least 3 letters each.");
+        return;
+    }
+
+    const firstPart = firstName.substring(0,3).toLowerCase();
+    const lastPart = lastName.substring(0,3).toLowerCase();
+    const randomNum = Math.floor(Math.random() * 900) + 100; // 100-999
+
+    const username = firstPart + lastPart + randomNum;
+    document.getElementById("username").textContent = username;
+}
+</script>
+
+</body>
+</html>

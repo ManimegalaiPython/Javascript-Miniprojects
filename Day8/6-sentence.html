@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentence Transformer</title>
+</head>
+<body>
+
+<h2>Sentence Transformer</h2>
+
+Enter a sentence: <input type="text" id="sentence" style="width:300px;"><br><br>
+<button onclick="transformSentence()">Transform</button>
+
+<h3>Results:</h3>
+<div id="output"></div>
+
+<script>
+function transformSentence() {
+    const text = document.getElementById("sentence").value.trim();
+    if(!text) {
+        alert("Enter a sentence!");
+        return;
+    }
+
+    const words = text.split(/\s+/);
+    const chars = text.length;
+
+    // Capitalize each word
+    const capitalized = words.map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+
+    // Kebab-case and snake_case
+    const kebab = words.join('-').toLowerCase();
+    const snake = words.join('_').toLowerCase();
+
+    // Longest and shortest words
+    let longest = words[0], shortest = words[0];
+    words.forEach(w => {
+        if(w.length > longest.length) longest = w;
+        if(w.length < shortest.length) shortest = w;
+    });
+
+    document.getElementById("output").innerHTML = `
+        Capitalized: ${capitalized}<br>
+        Total Words: ${words.length}<br>
+        Total Characters: ${chars}<br>
+        Kebab-case: ${kebab}<br>
+        Snake_case: ${snake}<br>
+        Longest Word: ${longest}<br>
+        Shortest Word: ${shortest}
+    `;
+}
+</script>
+
+</body>
+</html>

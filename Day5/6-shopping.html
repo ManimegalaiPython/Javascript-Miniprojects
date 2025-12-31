@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 10px;
+        }
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td button {
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 3px 6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shopping Cart System</h1>
+
+    <input type="text" id="itemName" placeholder="Item Name">
+    <input type="number" id="itemPrice" placeholder="Price" min="0">
+    <input type="number" id="itemQty" placeholder="Quantity" min="1">
+    <button onclick="addItem()">Add Item</button>
+
+    <table id="cartTable">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <p id="totalPrice"><strong>Total Price: $0.00</strong></p>
+
+    <script>
+        let cart = [];
+
+        function addItem() {
+            let name = document.getElementById("itemName").value.trim();
+            let price = parseFloat(document.getElementById("itemPrice").value);
+            let qty = parseInt(document.getElementById("itemQty").value);
+
+            if (!name || isNaN(price) || isNaN(qty) || price < 0 || qty <= 0) {
+                alert("Please enter valid item details!");
+                return;
+            }
+
+            cart.push({ name, price, qty });
+            renderCart();
+
+            // Clear input fields
+            document.getElementById("itemName").value = "";
+            document.getElementById("itemPrice").value = "";
+            document.getElementById("itemQty").value = "";
+        }
+
+        function deleteItem(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            let tbody = document.querySelector("#cartTable tbody");
+            tbody.innerHTML = "";
+
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                let row = document.createElement("tr");
+
+                let totalItem = item.price * item.qty;
+                total += totalItem;
+
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>${item.qty}</td>
+                    <td>$${totalItem.toFixed(2)}</td>
+                    <td><button onclick="deleteItem(${index})">Delete</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            document.getElementById("totalPrice").textContent = `Total Price: $${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>

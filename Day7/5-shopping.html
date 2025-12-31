@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart System</title>
+<style>
+    body {
+        font-family: 'Nunito Sans', sans-serif;
+        margin: 50px;
+        background-color: #f5f5f5;
+    }
+    h1 { text-align: center; color: #4CAF50; }
+    .container { max-width: 800px; margin: auto; }
+    .input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+    input[type="text"], input[type="number"], button {
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button { background-color: #F29B03; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #d87b02; }
+    ul { list-style: none; padding: 0; }
+    li { background-color: #fff; padding: 8px; margin-bottom: 5px; border-radius: 5px; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Shopping Cart System</h1>
+
+    <div class="input-group">
+        <input type="text" id="itemName" placeholder="Item Name">
+        <input type="number" id="itemPrice" placeholder="Price" min="0">
+        <input type="number" id="itemQty" placeholder="Quantity" min="1">
+        <button onclick="addItem()">Add Item</button>
+    </div>
+
+    <h3>Cart Items:</h3>
+    <ul id="cartList"></ul>
+
+    <h3>Total: $<span id="totalPrice">0.00</span></h3>
+</div>
+
+<script>
+    // Cart array
+    let cart = [];
+
+    // Add item to cart
+    function addItem() {
+        const name = document.getElementById("itemName").value.trim();
+        const price = parseFloat(document.getElementById("itemPrice").value);
+        const qty = parseInt(document.getElementById("itemQty").value);
+
+        if(!name || isNaN(price) || price <= 0 || isNaN(qty) || qty <= 0) {
+            alert("Enter valid item details!");
+            return;
+        }
+
+        // Check if item already exists
+        const existing = cart.find(item => item.name.toLowerCase() === name.toLowerCase());
+        if(existing) {
+            existing.qty += qty;
+            existing.price = price; // update price if changed
+        } else {
+            cart.push({ name, price, qty });
+        }
+
+        document.getElementById("itemName").value = "";
+        document.getElementById("itemPrice").value = "";
+        document.getElementById("itemQty").value = "";
+
+        displayCart();
+    }
+
+    // Remove item from cart
+    function removeItem(index) {
+        cart.splice(index, 1);
+        displayCart();
+    }
+
+    // Display cart items and total
+    function displayCart() {
+        const cartList = document.getElementById("cartList");
+        cartList.innerHTML = "";
+
+        let total = 0;
+
+        cart.forEach((item, index) => {
+            total += item.price * item.qty;
+            const li = document.createElement("li");
+            li.innerHTML = `
+                ${item.name} - $${item.price.toFixed(2)} x ${item.qty} 
+                <button onclick="removeItem(${index})">Remove</button>
+            `;
+            cartList.appendChild(li);
+        });
+
+        document.getElementById("totalPrice").textContent = total.toFixed(2);
+    }
+</script>
+
+</body>
+</html>

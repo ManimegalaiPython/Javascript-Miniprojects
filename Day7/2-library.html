@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library Management System</title>
+<style>
+    body {
+        font-family: 'Nunito Sans', sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: #4CAF50;
+    }
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
+    .input-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+    input[type="text"], input[type="number"] {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button {
+        padding: 8px 15px;
+        border: none;
+        background-color: #F29B03;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #d87b02;
+    }
+    .books {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+    }
+    .book-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .book-card h3 {
+        margin: 0;
+        color: #333;
+    }
+    .book-card p {
+        margin: 0;
+        color: #666;
+        font-size: 14px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Library Management System</h1>
+
+    <div class="input-group">
+        <input type="text" id="title" placeholder="Book Title">
+        <input type="text" id="author" placeholder="Author">
+        <input type="number" id="year" placeholder="Year" min="0">
+        <button onclick="addBook()">Add Book</button>
+    </div>
+
+    <div class="input-group">
+        <input type="text" id="search" placeholder="Search by Title">
+        <button onclick="searchBook()">Search</button>
+        <button onclick="displayBooks()">Show All</button>
+    </div>
+
+    <div class="books" id="bookContainer"></div>
+</div>
+
+<script>
+    // Book constructor
+    function Book(title, author, year) {
+        this.title = title;
+        this.author = author;
+        this.year = year;
+    }
+
+    let library = [
+        new Book("The Alchemist", "Paulo Coelho", 1988),
+        new Book("1984", "George Orwell", 1949),
+        new Book("Harry Potter", "J.K. Rowling", 1997)
+    ];
+
+    // Display all books
+    function displayBooks() {
+        const container = document.getElementById("bookContainer");
+        container.innerHTML = "";
+        library.forEach(book => {
+            const card = document.createElement("div");
+            card.className = "book-card";
+            card.innerHTML = `
+                <h3>${book.title}</h3>
+                <p><strong>Author:</strong> ${book.author}</p>
+                <p><strong>Year:</strong> ${book.year}</p>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Add new book
+    function addBook() {
+        const title = document.getElementById("title").value.trim();
+        const author = document.getElementById("author").value.trim();
+        const year = parseInt(document.getElementById("year").value);
+
+        if (!title || !author || isNaN(year) || year <= 0) {
+            alert("Please enter valid book details!");
+            return;
+        }
+
+        library.push(new Book(title, author, year));
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("year").value = "";
+        displayBooks();
+    }
+
+    // Search book by title
+    function searchBook() {
+        const searchTerm = document.getElementById("search").value.trim().toLowerCase();
+        const container = document.getElementById("bookContainer");
+        container.innerHTML = "";
+
+        const filtered = library.filter(book => book.title.toLowerCase().includes(searchTerm));
+        if (filtered.length === 0) {
+            container.innerHTML = "<p>No books found.</p>";
+            return;
+        }
+
+        filtered.forEach(book => {
+            const card = document.createElement("div");
+            card.className = "book-card";
+            card.innerHTML = `
+                <h3>${book.title}</h3>
+                <p><strong>Author:</strong> ${book.author}</p>
+                <p><strong>Year:</strong> ${book.year}</p>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Initial display
+    displayBooks();
+</script>
+
+</body>
+</html>

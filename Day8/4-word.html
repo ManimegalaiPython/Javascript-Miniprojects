@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Counter</title>
+</head>
+<body>
+
+<h2>Word Counter</h2>
+
+Enter a sentence: <input type="text" id="sentence" style="width:300px;"><br><br>
+<button onclick="countWords()">Count Words</button>
+
+<h3>Word Count: <span id="wordCount">0</span></h3>
+
+<script>
+function countWords() {
+    const text = document.getElementById("sentence").value.trim();
+
+    if(!text) {
+        document.getElementById("wordCount").textContent = 0;
+        return;
+    }
+
+    // Split by spaces and filter out empty strings
+    const words = text.split(/\s+/);
+    document.getElementById("wordCount").textContent = words.length;
+}
+</script>
+
+</body>
+</html>

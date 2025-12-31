@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tip Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+    .box {
+      background: white;
+      padding: 20px;
+      width: 300px;
+      border-radius: 8px;
+    }
+    input, button {
+      width: 100%;
+      margin: 6px 0;
+      padding: 6px;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h2>Tip Calculator</h2>
+
+    <input type="number" id="bill" placeholder="Bill Amount">
+    <input type="number" id="tip" placeholder="Tip Percentage">
+
+    <button onclick="showResult()">Calculate</button>
+
+    <p id="result"></p>
+  </div>
+
+  <script>
+    function calculateTip(bill, tipPercent) {
+      return (bill * tipPercent) / 100;
+    }
+
+    function calculateTotal(bill, tipAmount) {
+      return bill + tipAmount;
+    }
+
+    function showResult() {
+      var billAmount = Number(document.getElementById("bill").value);
+      var tipPercent = Number(document.getElementById("tip").value);
+
+      if (billAmount <= 0 || tipPercent < 0) {
+        alert("Please enter valid values");
+        return;
+      }
+
+      var tipAmount = calculateTip(billAmount, tipPercent);
+      var totalAmount = calculateTotal(billAmount, tipAmount);
+
+      document.getElementById("result").innerHTML =
+        "Tip Amount: ₹" + tipAmount.toFixed(2) + "<br>" +
+        "Total Amount: ₹" + totalAmount.toFixed(2);
+    }
+  </script>
+
+</body>
+</html>

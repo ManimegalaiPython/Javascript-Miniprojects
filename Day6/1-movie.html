@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Booking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        select, button {
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+        p {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Booking System</h1>
+
+    <label for="movieSelect">Select a movie to book:</label>
+    <select id="movieSelect">
+        <option value="">--Choose a movie--</option>
+    </select>
+    <button onclick="bookMovie()">Book Ticket</button>
+
+    <p id="message"></p>
+
+    <script>
+        // Movie List
+        let movies = ["Interstellar", "Jumanji", "Avatar", "Frozen II", "Black Panther"];
+
+        // Populate dropdown
+        let select = document.getElementById("movieSelect");
+        movies.forEach(movie => {
+            let option = document.createElement("option");
+            option.value = movie;
+            option.textContent = movie;
+            select.appendChild(option);
+        });
+
+        // Book Movie Function
+        function bookMovie() {
+            let selectedMovie = select.value;
+            let message = document.getElementById("message");
+
+            if (selectedMovie === "") {
+                message.textContent = "Please select a movie!";
+                message.style.color = "red";
+                return;
+            }
+
+            message.textContent = `Ticket booked for "${selectedMovie}"!`;
+            message.style.color = "green";
+
+            // Optionally remove the booked movie from the dropdown
+            // select.remove(select.selectedIndex);
+            // select.value = "";
+        }
+    </script>
+</body>
+</html>

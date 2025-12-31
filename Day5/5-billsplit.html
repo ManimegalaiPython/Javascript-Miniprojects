@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Splitting Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input[type="number"] {
+            padding: 5px;
+            width: 100px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 10px;
+        }
+        p {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bill Splitting Calculator</h1>
+
+    <label>Total Bill: $</label>
+    <input type="number" id="billAmount" placeholder="0" min="0"><br><br>
+
+    <label>Number of People: </label>
+    <input type="number" id="numPeople" placeholder="1" min="1"><br><br>
+
+    <label>Tip Percentage: </label>
+    <input type="number" id="tipPercent" placeholder="0" min="0"><br><br>
+
+    <button onclick="calculateSplit()">Calculate</button>
+
+    <p id="result"></p>
+
+    <script>
+        function calculateSplit() {
+            let bill = parseFloat(document.getElementById("billAmount").value);
+            let people = parseInt(document.getElementById("numPeople").value);
+            let tip = parseFloat(document.getElementById("tipPercent").value);
+
+            if (isNaN(bill) || isNaN(people) || people <= 0 || bill < 0 || tip < 0) {
+                alert("Please enter valid numbers!");
+                return;
+            }
+
+            let totalTip = (bill * tip) / 100;
+            let totalBill = bill + totalTip;
+            let perPerson = totalBill / people;
+
+            document.getElementById("result").textContent =
+                `Total Bill: $${totalBill.toFixed(2)} | Each Person Pays: $${perPerson.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
