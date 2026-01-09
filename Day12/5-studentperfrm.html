@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Performance Dashboard</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  input, button {
+    padding: 8px;
+    margin: 5px;
+  }
+
+  button {
+    background: #f1c40f;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .pass {
+    background: #d4edda;
+  }
+
+  .fail {
+    background: #f8d7da;
+  }
+
+  .topper {
+    background: #cce5ff;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Student Performance Dashboard</h2>
+
+  <!-- INPUT FORM -->
+  <input type="text" id="name" placeholder="Student Name">
+  <input type="number" id="roll" placeholder="Roll No">
+  <input type="number" id="maths" placeholder="Maths">
+  <input type="number" id="science" placeholder="Science">
+  <input type="number" id="english" placeholder="English">
+  <button onclick="addStudent()">Add Student</button>
+  <button onclick="sortStudents()">Sort by Performance</button>
+
+  <!-- TABLE -->
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Roll No</th>
+        <th>Total</th>
+        <th>Average</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="studentTable"></tbody>
+  </table>
+</div>
+
+<script>
+  let students = [];
+
+  // ADD STUDENT
+  function addStudent() {
+    const name = document.getElementById("name").value;
+    const roll = document.getElementById("roll").value;
+    const maths = Number(document.getElementById("maths").value);
+    const science = Number(document.getElementById("science").value);
+    const english = Number(document.getElementById("english").value);
+
+    if (!name || !roll) {
+      alert("Enter all details");
+      return;
+    }
+
+    const total = maths + science + english;
+    const average = (total / 3).toFixed(2);
+
+    students.push({
+      name,
+      roll,
+      marks: { maths, science, english },
+      total,
+      average: Number(average)
+    });
+
+    displayStudents();
+    clearInputs();
+  }
+
+  // DISPLAY STUDENTS
+  function displayStudents() {
+    const table = document.getElementById("studentTable");
+    table.innerHTML = "";
+
+    const maxAvg = Math.max(...students.map(s => s.average));
+
+    students.forEach(student => {
+      let status = student.average >= 40 ? "Pass" : "Fail";
+      let rowClass = student.average >= 40 ? "pass" : "fail";
+
+      if (student.average >= 75 && student.average === maxAvg) {
+        rowClass = "topper";
+      }
+
+      table.innerHTML += `
+        <tr class="${rowClass}">
+          <td>${student.name}</td>
+          <td>${student.roll}</td>
+          <td>${student.total}</td>
+          <td>${student.average}</td>
+          <td>${status}</td>
+        </tr>
+      `;
+    });
+  }
+
+  // SORT BY PERFORMANCE
+  function sortStudents() {
+    students.sort((a, b) => b.average - a.average);
+    displayStudents();
+  }
+
+  // CLEAR INPUTS
+  function clearInputs() {
+    document.querySelectorAll("input").forEach(i => i.value = "");
+  }
+</script>
+
+</body>
+</html>

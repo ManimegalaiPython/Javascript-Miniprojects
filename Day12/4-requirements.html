@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Customer Orders Management</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 30px;
+  }
+
+  .container {
+    max-width: 900px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  input {
+    padding: 8px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    padding: 8px 12px;
+    background: #F1C40F;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #e0b90f;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+
+  th {
+    background: #f9f9f9;
+  }
+
+  .total {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Customer Orders Management</h2>
+
+  <!-- Search -->
+  <input type="text" id="searchInput" placeholder="Search by Order ID or Customer">
+  <button onclick="searchOrder()">Search</button>
+  <button onclick="showAll()">Show All</button>
+
+  <!-- Orders Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Customer Name</th>
+        <th>Items</th>
+        <th>Total Amount (₹)</th>
+      </tr>
+    </thead>
+    <tbody id="orderList"></tbody>
+  </table>
+
+  <div class="total" id="totalRevenue"></div>
+</div>
+
+<script>
+  // Orders data (array of objects)
+  let orders = [
+    { orderId: 101, customer: "Anita", items: ["Cake", "Flowers"], total: 1200 },
+    { orderId: 102, customer: "Rahul", items: ["Mug", "Greeting Card"], total: 800 },
+    { orderId: 103, customer: "Anita", items: ["Photo Frame"], total: 600 },
+    { orderId: 104, customer: "Suresh", items: ["Chocolate Box"], total: 500 }
+  ];
+
+  const orderList = document.getElementById("orderList");
+  const totalRevenueDiv = document.getElementById("totalRevenue");
+
+  window.onload = () => {
+    renderOrders(orders);
+    calculateRevenue();
+  };
+
+  function renderOrders(list) {
+    orderList.innerHTML = "";
+
+    list.forEach(order => {
+      orderList.innerHTML += `
+        <tr>
+          <td>${order.orderId}</td>
+          <td>${order.customer}</td>
+          <td>${order.items.join(", ")}</td>
+          <td>${order.total}</td>
+        </tr>
+      `;
+    });
+  }
+
+  // Search order by ID or customer name
+  function searchOrder() {
+    const keyword = document.getElementById("searchInput").value.toLowerCase();
+
+    const result = orders.filter(order =>
+      order.customer.toLowerCase().includes(keyword) ||
+      order.orderId.toString().includes(keyword)
+    );
+
+    renderOrders(result);
+  }
+
+  // Show all orders
+  function showAll() {
+    renderOrders(orders);
+  }
+
+  // Calculate total revenue
+  function calculateRevenue() {
+    const revenue = orders.reduce((sum, order) => sum + order.total, 0);
+    totalRevenueDiv.innerText = `Total Revenue: ₹${revenue}`;
+  }
+</script>
+
+</body>
+</html>

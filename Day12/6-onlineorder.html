@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Online Order Fulfillment System</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 30px;
+  }
+
+  .container {
+    max-width: 1000px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  button {
+    padding: 6px 12px;
+    background: #F1C40F;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #e0b90f;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+
+  th {
+    background: #f9f9f9;
+  }
+
+  .fulfilled {
+    color: green;
+    font-weight: bold;
+  }
+
+  .pending {
+    color: red;
+    font-weight: bold;
+  }
+
+  .summary {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Online Order Fulfillment System</h2>
+
+  <button onclick="showAllOrders()">Show All Orders</button>
+  <button onclick="showPendingOrders()">Show Pending Orders</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Items</th>
+        <th>Quantity</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="orderTable"></tbody>
+  </table>
+
+  <div class="summary" id="revenue"></div>
+  <div class="summary" id="customerSummary"></div>
+</div>
+
+<script>
+  // Orders data
+  let orders = [
+    { id: 1, customer: "Anita", items: ["Cake", "Flowers"], quantity: 2, price: 1200, status: "pending" },
+    { id: 2, customer: "Rahul", items: ["Mug"], quantity: 1, price: 500, status: "fulfilled" },
+    { id: 3, customer: "Anita", items: ["Photo Frame"], quantity: 1, price: 700, status: "pending" },
+    { id: 4, customer: "Suresh", items: ["Chocolate Box"], quantity: 3, price: 900, status: "fulfilled" }
+  ];
+
+  const table = document.getElementById("orderTable");
+  const revenueDiv = document.getElementById("revenue");
+  const customerSummaryDiv = document.getElementById("customerSummary");
+
+  window.onload = () => {
+    renderOrders(orders);
+    calculateRevenue();
+    customerSummary();
+  };
+
+  function renderOrders(list) {
+    table.innerHTML = "";
+
+    list.forEach(order => {
+      table.innerHTML += `
+        <tr>
+          <td>${order.id}</td>
+          <td>${order.customer}</td>
+          <td>${order.items.join(", ")}</td>
+          <td>${order.quantity}</td>
+          <td class="${order.status}">
+            ${order.status}
+          </td>
+          <td>
+            ${order.status === "pending" 
+              ? `<button onclick="fulfillOrder(${order.id})">Fulfill</button>` 
+              : "-"}
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  // Fulfill order
+  function fulfillOrder(orderId) {
+    const order = orders.find(o => o.id === orderId);
+    if (order) {
+      order.status = "fulfilled";
+      renderOrders(orders);
+      calculateRevenue();
+      customerSummary();
+    }
+  }
+
+  // Show pending orders
+  function showPendingOrders() {
+    const pendingOrders = orders.filter(order => order.status === "pending");
+    renderOrders(pendingOrders);
+  }
+
+  // Show all orders
+  function showAllOrders() {
+    renderOrders(orders);
+  }
+
+  // Calculate revenue from fulfilled orders
+  function calculateRevenue() {
+    const total = orders
+      .filter(order => order.status === "fulfilled")
+      .reduce((sum, order) => sum + order.price, 0);
+
+    revenueDiv.innerText = `Total Revenue (Fulfilled Orders): ₹${total}`;
+  }
+
+  // Customer-wise order summary
+  function customerSummary() {
+    let summary = {};
+
+    orders.forEach(order => {
+      if (!summary[order.customer]) {
+        summary[order.customer] = 0;
+      }
+      summary[order.customer]++;
+    });
+
+    let text = "Customer-wise Orders: ";
+    for (let customer in summary) {
+      text += `${customer} (${summary[customer]}) | `;
+    }
+
+    customerSummaryDiv.innerText = text;
+  }
+</script>
+
+</body>
+</html>

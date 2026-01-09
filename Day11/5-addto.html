@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add to Cart App</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+  }
+
+  .products, .cart {
+    margin-top: 20px;
+  }
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #eee;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+  }
+
+  button {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .cart-total {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .clear-btn {
+    background: crimson;
+    color: #fff;
+    border: none;
+    margin-top: 10px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Add to Cart App</h2>
+
+  <!-- SEARCH -->
+  <input type="text" id="search" placeholder="Search products..." onkeyup="searchProducts()">
+
+  <!-- PRODUCT LIST -->
+  <div class="products" id="productList"></div>
+
+  <hr>
+
+  <!-- CART -->
+  <h3>Cart</h3>
+  <div class="cart" id="cartList"></div>
+  <div class="cart-total">Total: ₹<span id="total">0</span></div>
+  <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+</div>
+
+<script>
+  // PRODUCTS DATA
+  const products = [
+    { id: 1, name: "Photo Frame", price: 500 },
+    { id: 2, name: "Custom Mug", price: 300 },
+    { id: 3, name: "Gift Box", price: 700 },
+    { id: 4, name: "Greeting Card", price: 150 }
+  ];
+
+  // LOAD CART FROM localStorage
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  displayProducts(products);
+  displayCart();
+
+  // DISPLAY PRODUCTS
+  function displayProducts(items) {
+    const list = document.getElementById("productList");
+    list.innerHTML = "";
+
+    items.forEach(p => {
+      list.innerHTML += `
+        <div class="item">
+          <span>${p.name} - ₹${p.price}</span>
+          <button onclick="addToCart(${p.id})">Add</button>
+        </div>
+      `;
+    });
+  }
+
+  // SEARCH PRODUCTS
+  function searchProducts() {
+    const value = document.getElementById("search").value.toLowerCase();
+    const filtered = products.filter(p =>
+      p.name.toLowerCase().includes(value)
+    );
+    displayProducts(filtered);
+  }
+
+  // ADD TO CART
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    displayCart();
+  }
+
+  // DISPLAY CART
+  function displayCart() {
+    const cartList = document.getElementById("cartList");
+    cartList.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+      total += item.price;
+      cartList.innerHTML += `
+        <div class="item">
+          <span>${item.name} - ₹${item.price}</span>
+          <button onclick="removeItem(${index})">Remove</button>
+        </div>
+      `;
+    });
+
+    document.getElementById("total").innerText = total;
+  }
+
+  // REMOVE ITEM
+  function removeItem(index) {
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    displayCart();
+  }
+
+  // CLEAR CART
+  function clearCart() {
+    cart = [];
+    localStorage.removeItem("cart");
+    displayCart();
+  }
+</script>
+
+</body>
+</html>

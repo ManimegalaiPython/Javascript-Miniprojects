@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project 6 - Key Logger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .last-key {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .all-keys {
+            font-size: 16px;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Real-Time Key Logger</h2>
+
+    <input type="text" id="keyInput" placeholder="Type here..." autofocus>
+
+    <div class="last-key">
+        Last Key Pressed: <span id="lastKey">None</span>
+    </div>
+
+    <div>
+        All Keys Pressed:
+        <div class="all-keys" id="allKeys"></div>
+    </div>
+
+    <script>
+        const keyInput = document.getElementById("keyInput");
+        const lastKey = document.getElementById("lastKey");
+        const allKeys = document.getElementById("allKeys");
+
+        const pressedKeys = [];
+
+        keyInput.addEventListener("keydown", (event) => {
+            const key = event.key;
+
+            // Update last key
+            lastKey.innerText = key;
+
+            // Add to pressed keys array
+            pressedKeys.push(key);
+
+            // Show all pressed keys
+            allKeys.innerText = pressedKeys.join(", ");
+        });
+    </script>
+
+</body>
+</html>

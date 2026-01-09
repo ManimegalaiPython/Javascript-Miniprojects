@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Inventory Management System</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  input, button {
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+  }
+
+  button {
+    cursor: pointer;
+    background: #f1c40f;
+    border: none;
+    font-weight: bold;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .result {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Inventory Management System</h2>
+
+  <!-- SEARCH -->
+  <input type="text" id="search" placeholder="Search by ID or Name">
+  <button onclick="searchProduct()">Check Stock</button>
+  <div class="result" id="searchResult"></div>
+
+  <!-- UPDATE STOCK -->
+  <input type="number" id="updateId" placeholder="Product ID">
+  <input type="number" id="updateQty" placeholder="Quantity (+Add / -Remove)">
+  <button onclick="updateStock()">Update Inventory</button>
+
+  <!-- INVENTORY TABLE -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Quantity</th>
+        <th>Price (₹)</th>
+      </tr>
+    </thead>
+    <tbody id="inventoryTable"></tbody>
+  </table>
+
+  <!-- TOTAL VALUE -->
+  <div class="result">
+    Total Inventory Value: ₹<span id="totalValue">0</span>
+  </div>
+</div>
+
+<script>
+  // INVENTORY DATA (ARRAY OF OBJECTS)
+  let inventory = [
+    { id: 1, name: "Photo Frame", category: "Gift", quantity: 10, price: 500 },
+    { id: 2, name: "Custom Mug", category: "Gift", quantity: 15, price: 300 },
+    { id: 3, name: "Greeting Card", category: "Stationery", quantity: 50, price: 100 }
+  ];
+
+  displayInventory();
+  calculateTotalValue();
+
+  // DISPLAY INVENTORY
+  function displayInventory() {
+    const table = document.getElementById("inventoryTable");
+    table.innerHTML = "";
+
+    inventory.forEach(item => {
+      table.innerHTML += `
+        <tr>
+          <td>${item.id}</td>
+          <td>${item.name}</td>
+          <td>${item.category}</td>
+          <td>${item.quantity}</td>
+          <td>${item.price}</td>
+        </tr>
+      `;
+    });
+  }
+
+  // SEARCH PRODUCT
+  function searchProduct() {
+    const value = document.getElementById("search").value.toLowerCase();
+    const result = inventory.find(item =>
+      item.id == value || item.name.toLowerCase() === value
+    );
+
+    document.getElementById("searchResult").innerText =
+      result
+        ? `Stock Available: ${result.quantity}`
+        : "Product not found";
+  }
+
+  // UPDATE STOCK
+  function updateStock() {
+    const id = Number(document.getElementById("updateId").value);
+    const qty = Number(document.getElementById("updateQty").value);
+
+    const product = inventory.find(item => item.id === id);
+
+    if (!product) {
+      alert("Product not found");
+      return;
+    }
+
+    product.quantity += qty;
+    if (product.quantity < 0) product.quantity = 0;
+
+    displayInventory();
+    calculateTotalValue();
+  }
+
+  // TOTAL INVENTORY VALUE
+  function calculateTotalValue() {
+    const total = inventory.reduce(
+      (sum, item) => sum + item.quantity * item.price,
+      0
+    );
+
+    document.getElementById("totalValue").innerText = total;
+  }
+</script>
+
+</body>
+</html>

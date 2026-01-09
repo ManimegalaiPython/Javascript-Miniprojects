@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Library Book Management</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 30px;
+  }
+
+  .library-box {
+    max-width: 800px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  input, select {
+    padding: 8px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    padding: 8px 12px;
+    background: #F1C40F;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #e0b90f;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  th {
+    background: #f9f9f9;
+  }
+
+  .borrowed {
+    color: red;
+    font-weight: bold;
+  }
+
+  .available {
+    color: green;
+    font-weight: bold;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="library-box">
+  <h2>Library Book Management System</h2>
+
+  <!-- Search -->
+  <input type="text" id="searchInput" placeholder="Search by Title / Author / Genre">
+  <button onclick="searchBooks()">Search</button>
+  <button onclick="showAvailable()">Available Books</button>
+  <button onclick="showAll()">Show All</button>
+
+  <!-- Book Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Status</th>
+        <th>Borrower</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="bookList"></tbody>
+  </table>
+</div>
+
+<script>
+  // Book records (array of objects)
+  let books = [
+    { id: 1, title: "Harry Potter", author: "J.K. Rowling", genre: "Fantasy", available: true, borrower: "" },
+    { id: 2, title: "Atomic Habits", author: "James Clear", genre: "Self Help", available: true, borrower: "" },
+    { id: 3, title: "The Alchemist", author: "Paulo Coelho", genre: "Fiction", available: false, borrower: "John" }
+  ];
+
+  const bookList = document.getElementById("bookList");
+
+  window.onload = () => renderBooks(books);
+
+  function renderBooks(list) {
+    bookList.innerHTML = "";
+
+    list.forEach((book, index) => {
+      bookList.innerHTML += `
+        <tr>
+          <td>${book.id}</td>
+          <td>${book.title}</td>
+          <td>${book.author}</td>
+          <td>${book.genre}</td>
+          <td class="${book.available ? 'available' : 'borrowed'}">
+            ${book.available ? 'Available' : 'Borrowed'}
+          </td>
+          <td>${book.borrower || '-'}</td>
+          <td>
+            ${
+              book.available
+                ? `<button onclick="borrowBook(${index})">Borrow</button>`
+                : `<button onclick="returnBook(${index})">Return</button>`
+            }
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  // Search books
+  function searchBooks() {
+    const keyword = document.getElementById("searchInput").value.toLowerCase();
+    const filtered = books.filter(book =>
+      book.title.toLowerCase().includes(keyword) ||
+      book.author.toLowerCase().includes(keyword) ||
+      book.genre.toLowerCase().includes(keyword)
+    );
+    renderBooks(filtered);
+  }
+
+  // Show only available books
+  function showAvailable() {
+    const availableBooks = books.filter(book => book.available);
+    renderBooks(availableBooks);
+  }
+
+  // Show all books
+  function showAll() {
+    renderBooks(books);
+  }
+
+  // Borrow book
+  function borrowBook(index) {
+    const borrower = prompt("Enter borrower name:");
+    if (borrower) {
+      books[index].available = false;
+      books[index].borrower = borrower;
+      renderBooks(books);
+    }
+  }
+
+  // Return book
+  function returnBook(index) {
+    books[index].available = true;
+    books[index].borrower = "";
+    renderBooks(books);
+  }
+</script>
+
+</body>
+</html>

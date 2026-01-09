@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project 3 - Keyboard Shortcut</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Keyboard Shortcut Trigger</h2>
+    <p>Press <b>Ctrl + S</b> or <b>Alt + M</b></p>
+
+    <div class="message" id="msg"></div>
+
+    <script>
+        document.addEventListener("keydown", function (event) {
+
+            // Ctrl + S
+            if (event.ctrlKey && event.key === "s") {
+                event.preventDefault(); // stop browser save action
+                document.getElementById("msg").innerText = "Save Triggered!";
+            }
+
+            // Alt + M
+            if (event.altKey && event.key === "m") {
+                document.getElementById("msg").innerText = "Menu Triggered!";
+            }
+        });
+    </script>
+
+</body>
+</html>

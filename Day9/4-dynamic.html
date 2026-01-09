@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic Theme Switcher</title>
+
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background:#ffffff;
+    color:#000;
+    transition:0.4s;
+  }
+
+  .container{
+    width:400px;
+    margin:120px auto;
+    text-align:center;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+  }
+
+  h2{
+    margin-bottom:20px;
+  }
+
+  p{
+    margin-bottom:25px;
+  }
+
+  button{
+    padding:10px 18px;
+    margin:6px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:15px;
+    color:#fff;
+  }
+
+  .blue{ background:#3498db; }
+  .green{ background:#2ecc71; }
+  .yellow{ background:#f1c40f; color:#000; }
+  .dark{ background:#2c3e50; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Dynamic Theme Switcher</h2>
+  <p>Click a button to change the theme</p>
+
+  <button class="blue" onclick="setTheme('blue')">Blue Theme</button>
+  <button class="green" onclick="setTheme('green')">Green Theme</button>
+  <button class="yellow" onclick="setTheme('yellow')">Yellow Theme</button>
+  <button class="dark" onclick="setTheme('dark')">Dark Theme</button>
+</div>
+
+<script>
+  function setTheme(theme){
+    if(theme === 'blue'){
+      document.body.style.background = '#d6eaf8';
+      document.body.style.color = '#154360';
+    }
+    else if(theme === 'green'){
+      document.body.style.background = '#d5f5e3';
+      document.body.style.color = '#145a32';
+    }
+    else if(theme === 'yellow'){
+      document.body.style.background = '#fcf3cf';
+      document.body.style.color = '#7d6608';
+    }
+    else if(theme === 'dark'){
+      document.body.style.background = '#1c1c1c';
+      document.body.style.color = '#ffffff';
+    }
+  }
+</script>
+
+</body>
+</html>

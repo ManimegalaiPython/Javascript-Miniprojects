@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Light / Dark Mode Toggle</title>
+
+<style>
+  body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* Light Mode (Default) */
+  body.light{
+    background:#ffffff;
+    color:#000000;
+  }
+
+  /* Dark Mode */
+  body.dark{
+    background:#121212;
+    color:#ffffff;
+  }
+
+  .container{
+    text-align:center;
+    margin-top:150px;
+  }
+
+  button{
+    padding:12px 25px;
+    font-size:16px;
+    cursor:pointer;
+    border:none;
+    border-radius:6px;
+  }
+</style>
+</head>
+
+<body class="light">
+
+  <div class="container">
+    <h1>Light / Dark Mode Toggle</h1>
+    <p>Click the button to switch theme</p>
+    <button onclick="toggleMode()">Switch to Dark Mode</button>
+  </div>
+
+<script>
+  function toggleMode(){
+    const body = document.body;
+    const button = document.querySelector("button");
+
+    body.classList.toggle("dark");
+    body.classList.toggle("light");
+
+    if(body.classList.contains("dark")){
+      button.innerText = "Switch to Light Mode";
+    }else{
+      button.innerText = "Switch to Dark Mode";
+    }
+  }
+</script>
+
+</body>
+</html>

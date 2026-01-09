@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Project 5 - Drag and Drop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        .container {
+            width: 400px;
+            height: 300px;
+            border: 2px dashed #ccc;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .draggable {
+            width: 100px;
+            height: 100px;
+            background-color: #f1c40f;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: absolute;
+            cursor: move;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Drag and Drop Box</h2>
+    <p>Drag the yellow box inside the container.</p>
+
+    <div class="container" id="dropArea">
+        <div class="draggable" id="dragBox">Drag me</div>
+    </div>
+
+    <script>
+        const dragBox = document.getElementById("dragBox");
+        const dropArea = document.getElementById("dropArea");
+
+        let offsetX, offsetY;
+        let isDragging = false;
+
+        dragBox.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            offsetX = e.clientX - dragBox.offsetLeft;
+            offsetY = e.clientY - dragBox.offsetTop;
+            dragBox.style.transition = "none";
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+
+            let x = e.clientX - offsetX;
+            let y = e.clientY - offsetY;
+
+            // Keep box inside container
+            const rect = dropArea.getBoundingClientRect();
+            const boxRect = dragBox.getBoundingClientRect();
+
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
+            if (x + boxRect.width > rect.width) x = rect.width - boxRect.width;
+            if (y + boxRect.height > rect.height) y = rect.height - boxRect.height;
+
+            dragBox.style.left = x + "px";
+            dragBox.style.top = y + "px";
+        });
+
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            dragBox.style.transition = "left 0.1s, top 0.1s";
+        });
+    </script>
+
+</body>
+</html>
