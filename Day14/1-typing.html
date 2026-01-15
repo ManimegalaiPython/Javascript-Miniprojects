@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Typing Speed Tester</title>
+
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+    padding:20px;
+  }
+
+  h1{
+    text-align:center;
+  }
+
+  .container{
+    max-width:600px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+  }
+
+  .sentence{
+    background:#e8e8e8;
+    padding:15px;
+    border-radius:5px;
+    margin-bottom:15px;
+  }
+
+  textarea{
+    width:100%;
+    height:100px;
+    padding:10px;
+    font-size:16px;
+  }
+
+  button{
+    padding:10px 15px;
+    margin-top:10px;
+    cursor:pointer;
+  }
+
+  .result{
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>⌨️ Typing Speed Tester</h1>
+
+<div class="container">
+
+  <div class="sentence" id="sentence">Loading sentence...</div>
+
+  <textarea id="typingArea" placeholder="Start typing here..." disabled></textarea>
+
+  <button onclick="startTest()">Start Test</button>
+  <button onclick="checkSpeed()">Submit</button>
+
+  <div class="result" id="result"></div>
+
+</div>
+
+<script>
+  let startTime = 0;
+  let sentenceText = "";
+
+  // Fetch random sentence
+  async function fetchSentence(){
+    const res = await fetch("https://api.quotable.io/random");
+    const data = await res.json();
+    sentenceText = data.content;
+    document.getElementById("sentence").innerText = sentenceText;
+  }
+
+  function startTest(){
+    fetchSentence();
+    document.getElementById("typingArea").value = "";
+    document.getElementById("typingArea").disabled = false;
+    document.getElementById("typingArea").focus();
+    document.getElementById("result").innerText = "";
+    startTime = new Date().getTime();
+  }
+
+  function checkSpeed(){
+    const typedText = document.getElementById("typingArea").value;
+    const endTime = new Date().getTime();
+
+    const timeTaken = (endTime - startTime) / 1000; // seconds
+    const wordCount = typedText.trim().split(/\s+/).length;
+    const wpm = Math.round((wordCount / timeTaken) * 60);
+
+    document.getElementById("result").innerText =
+      `Typing Speed: ${wpm} Words Per Minute`;
+
+    document.getElementById("typingArea").disabled = true;
+  }
+</script>
+
+</body>
+</html>

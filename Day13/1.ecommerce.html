@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-Commerce Product Catalog</title>
+
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+    padding:20px;
+  }
+
+  h1{
+    text-align:center;
+  }
+
+  .controls{
+    text-align:center;
+    margin-bottom:20px;
+  }
+
+  button, select{
+    padding:8px 12px;
+    margin:5px;
+    cursor:pointer;
+  }
+
+  .product-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+  }
+
+  .product{
+    background:#fff;
+    padding:15px;
+    border-radius:6px;
+    cursor:pointer;
+  }
+
+  .product:hover{
+    background:#eaeaea;
+  }
+
+  .details{
+    margin-top:20px;
+    background:#fff;
+    padding:15px;
+    border-radius:6px;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>🛒 E-Commerce Product Catalog</h1>
+
+<div class="controls">
+  <button onclick="filterProducts()">Show Below ₹500</button>
+
+  <select onchange="sortProducts(this.value)">
+    <option value="">Sort by Price</option>
+    <option value="low">Low → High</option>
+    <option value="high">High → Low</option>
+  </select>
+</div>
+
+<div id="productList" class="product-list"></div>
+
+<div id="productDetails" class="details"></div>
+
+<script>
+  // Product Data (JSON inside JS)
+  const products = [
+    {
+      id:1,
+      name:"Wireless Headphones",
+      price:299,
+      category:"Electronics",
+      description:"High quality wireless headphones"
+    },
+    {
+      id:2,
+      name:"Smart Watch",
+      price:499,
+      category:"Electronics",
+      description:"Smart watch with health tracking"
+    },
+    {
+      id:3,
+      name:"Running Shoes",
+      price:799,
+      category:"Fashion",
+      description:"Comfortable running shoes"
+    },
+    {
+      id:4,
+      name:"Backpack",
+      price:199,
+      category:"Accessories",
+      description:"Durable travel backpack"
+    }
+  ];
+
+  let currentProducts = products;
+
+  // Display Products
+  function displayProducts(items){
+    const list = document.getElementById("productList");
+    list.innerHTML = "";
+
+    items.forEach(product => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <h3>${product.name}</h3>
+        <p>₹${product.price}</p>
+        <p>${product.category}</p>
+      `;
+      div.onclick = () => showDetails(product);
+      list.appendChild(div);
+    });
+  }
+
+  // Filter Products below 500
+  function filterProducts(){
+    currentProducts = products.filter(p => p.price < 500);
+    displayProducts(currentProducts);
+  }
+
+  // Sort Products
+  function sortProducts(order){
+    let sorted = [...currentProducts];
+
+    if(order === "low"){
+      sorted.sort((a,b) => a.price - b.price);
+    } else if(order === "high"){
+      sorted.sort((a,b) => b.price - a.price);
+    }
+
+    displayProducts(sorted);
+  }
+
+  // Show Product Details
+  function showDetails(product){
+    document.getElementById("productDetails").innerHTML = `
+      <h2>${product.name}</h2>
+      <p><strong>Price:</strong> ₹${product.price}</p>
+      <p><strong>Category:</strong> ${product.category}</p>
+      <p>${product.description}</p>
+    `;
+  }
+
+  // Initial Load
+  displayProducts(products);
+</script>
+
+</body>
+</html>

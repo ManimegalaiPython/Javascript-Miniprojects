@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debugging Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .dashboard {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #710125;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #710125;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #a50e4a;
+    }
+
+    #logs {
+      margin-top: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+
+    .log-entry {
+      margin-bottom: 10px;
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .error { color: red; }
+    .info { color: green; }
+  </style>
+</head>
+<body>
+
+<div class="dashboard">
+  <h2>Debugging Dashboard</h2>
+  <button id="simulateErrorBtn">Simulate Error</button>
+  <button id="clearLogsBtn">Clear Logs</button>
+
+  <div id="logs">
+    <strong>Logs will appear here...</strong>
+  </div>
+</div>
+
+<script>
+  const logsDiv = document.getElementById('logs');
+  const simulateErrorBtn = document.getElementById('simulateErrorBtn');
+  const clearLogsBtn = document.getElementById('clearLogsBtn');
+
+  // Load previous logs from LocalStorage
+  function loadLogs() {
+    logsDiv.innerHTML = '';
+    const logs = JSON.parse(localStorage.getItem('debugLogs')) || [];
+    if (logs.length === 0) {
+      logsDiv.innerHTML = '<strong>No logs yet.</strong>';
+    } else {
+      logs.forEach(log => {
+        const div = document.createElement('div');
+        div.className = `log-entry ${log.type}`;
+        div.innerText = `[${log.time}] ${log.message}`;
+        logsDiv.appendChild(div);
+      });
+    }
+  }
+
+  loadLogs();
+
+  // Function to save log
+  function saveLog(message, type='error') {
+    console[type](message); // Log to console using console.error() or console.info()
+    const logs = JSON.parse(localStorage.getItem('debugLogs')) || [];
+    logs.push({ message, type, time: new Date().toLocaleString() });
+    localStorage.setItem('debugLogs', JSON.stringify(logs));
+    loadLogs();
+  }
+
+  // Simulate an error
+  simulateErrorBtn.addEventListener('click', () => {
+    try {
+      // Example error
+      throw new Error('This is a simulated error!');
+    } catch (err) {
+      saveLog(err.message, 'error');
+    }
+  });
+
+  // Clear logs
+  clearLogsBtn.addEventListener('click', () => {
+    localStorage.removeItem('debugLogs');
+    loadLogs();
+  });
+
+  // Optional: Global error handler
+  window.addEventListener('error', function(event) {
+    saveLog(`Global Error: ${event.message}`, 'error');
+  });
+</script>
+
+</body>
+</html>

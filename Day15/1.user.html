@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      width: 350px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #710125;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .error {
+      color: #D72D52;
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #710125;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #a50e4a;
+    }
+
+    .success {
+      text-align: center;
+      color: green;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>User Registration</h2>
+    <form id="registrationForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username">
+      <div class="error" id="usernameError"></div>
+
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email">
+      <div class="error" id="emailError"></div>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password">
+      <div class="error" id="passwordError"></div>
+
+      <button type="submit">Register</button>
+      <div class="success" id="successMessage"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('registrationForm');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent form submission
+
+      // Clear previous messages
+      document.getElementById('usernameError').innerText = '';
+      document.getElementById('emailError').innerText = '';
+      document.getElementById('passwordError').innerText = '';
+      document.getElementById('successMessage').innerText = '';
+
+      try {
+        // Get form values
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        // Validation
+        if (!username) throw {field: 'username', message: 'Username is required'};
+        if (!email) throw {field: 'email', message: 'Email is required'};
+        if (!validateEmail(email)) throw {field: 'email', message: 'Invalid email format'};
+        if (!password) throw {field: 'password', message: 'Password is required'};
+        if (password.length < 6) throw {field: 'password', message: 'Password must be at least 6 characters'};
+
+        // If all validations pass
+        document.getElementById('successMessage').innerText = 'Registration Successful!';
+        form.reset();
+
+      } catch (error) {
+        // Display error message under the corresponding input
+        if (error.field) {
+          document.getElementById(error.field + 'Error').innerText = error.message;
+        }
+      }
+    });
+
+    // Email validation function
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+  </script>
+
+</body>
+</html>

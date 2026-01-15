@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator with Error Handling</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .calculator {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+    }
+
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    select {
+      width: 85%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background-color: #710125;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #a50e4a;
+    }
+
+    .result, .error {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .result { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <h2>Calculator</h2>
+  <input type="number" id="num1" placeholder="Enter first number">
+  <input type="number" id="num2" placeholder="Enter second number">
+
+  <select id="operation">
+    <option value="add">Addition (+)</option>
+    <option value="subtract">Subtraction (-)</option>
+    <option value="multiply">Multiplication (×)</option>
+    <option value="divide">Division (÷)</option>
+  </select>
+
+  <button id="calculateBtn">Calculate</button>
+
+  <div class="result" id="result"></div>
+  <div class="error" id="error"></div>
+</div>
+
+<script>
+  const calculateBtn = document.getElementById('calculateBtn');
+
+  calculateBtn.addEventListener('click', () => {
+    // Clear previous messages
+    document.getElementById('result').innerText = '';
+    document.getElementById('error').innerText = '';
+
+    try {
+      const num1 = parseFloat(document.getElementById('num1').value);
+      const num2 = parseFloat(document.getElementById('num2').value);
+      const operation = document.getElementById('operation').value;
+
+      // Validate inputs
+      if (isNaN(num1) || isNaN(num2)) {
+        throw new Error('Both inputs must be numbers.');
+      }
+
+      let result;
+
+      // Perform operation with error handling
+      switch (operation) {
+        case 'add':
+          result = num1 + num2;
+          break;
+        case 'subtract':
+          result = num1 - num2;
+          break;
+        case 'multiply':
+          result = num1 * num2;
+          break;
+        case 'divide':
+          if (num2 === 0) throw new Error('Division by zero is not allowed.');
+          result = num1 / num2;
+          break;
+        default:
+          throw new Error('Invalid operation selected.');
+      }
+
+      document.getElementById('result').innerText = `Result: ${result}`;
+
+    } catch (error) {
+      document.getElementById('error').innerText = `Error: ${error.message}`;
+    }
+  });
+</script>
+
+</body>
+</html>

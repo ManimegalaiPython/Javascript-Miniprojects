@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Currency Converter</title>
+
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+    padding:20px;
+  }
+
+  h1{
+    text-align:center;
+  }
+
+  .container{
+    max-width:450px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+    text-align:center;
+  }
+
+  input, select{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+  }
+
+  .result{
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>💱 Currency Converter</h1>
+
+<div class="container">
+
+  <input type="number" id="amount" placeholder="Enter amount" value="1">
+
+  <select id="fromCurrency"></select>
+
+  <select id="toCurrency"></select>
+
+  <div class="result" id="result">Converted Amount: —</div>
+
+</div>
+
+<script>
+  const fromSelect = document.getElementById("fromCurrency");
+  const toSelect = document.getElementById("toCurrency");
+  const amountInput = document.getElementById("amount");
+  const resultDiv = document.getElementById("result");
+
+  // Fetch available currencies
+  async function loadCurrencies(){
+    const res = await fetch("https://api.frankfurter.app/currencies");
+    const currencies = await res.json();
+
+    for(let code in currencies){
+      fromSelect.innerHTML += `<option value="${code}">${code}</option>`;
+      toSelect.innerHTML += `<option value="${code}">${code}</option>`;
+    }
+
+    fromSelect.value = "USD";
+    toSelect.value = "INR";
+
+    convert();
+  }
+
+  // Convert currency
+  async function convert(){
+    const amount = amountInput.value;
+    const from = fromSelect.value;
+    const to = toSelect.value;
+
+    if(from === to){
+      resultDiv.innerText = `Converted Amount: ${amount}`;
+      return;
+    }
+
+    const res = await fetch(
+      `https://api.frankfurter.app/latest?amount=${amount}&from=${from}&to=${to}`
+    );
+    const data = await res.json();
+
+    resultDiv.innerText =
+      `Converted Amount: ${data.rates[to]}`;
+  }
+
+  // Event listeners for instant conversion
+  amountInput.addEventListener("input", convert);
+  fromSelect.addEventListener("change", convert);
+  toSelect.addEventListener("change", convert);
+
+  // Initial load
+  loadCurrencies();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Employee Management System</title>
+
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    padding:20px;
+  }
+
+  h1{
+    text-align:center;
+  }
+
+  .container{
+    max-width:700px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:6px;
+  }
+
+  input{
+    padding:8px;
+    margin:5px;
+  }
+
+  button{
+    padding:8px 12px;
+    cursor:pointer;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+  }
+
+  th, td{
+    border:1px solid #ccc;
+    padding:8px;
+    text-align:center;
+  }
+
+  th{
+    background:#eee;
+  }
+
+  .delete{
+    background:red;
+    color:white;
+    border:none;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>👨‍💼 Employee Management System</h1>
+
+<div class="container">
+
+  <h3>Add Employee</h3>
+  <input type="text" id="name" placeholder="Name">
+  <input type="text" id="role" placeholder="Role">
+  <input type="number" id="salary" placeholder="Salary">
+  <button onclick="addEmployee()">Add</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Salary</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="employeeTable"></tbody>
+  </table>
+
+</div>
+
+<script>
+  let employees = [];
+
+  // JSON DATA (simulating employees.json)
+  const employeeJSON = [
+    { "id": 1, "name": "Arun", "role": "Developer", "salary": 40000 },
+    { "id": 2, "name": "Meena", "role": "Designer", "salary": 35000 },
+    { "id": 3, "name": "Rahul", "role": "Manager", "salary": 60000 }
+  ];
+
+  // Fetch employees using fetch()
+  async function fetchEmployees(){
+    const blob = new Blob([JSON.stringify(employeeJSON)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const response = await fetch(url);
+    employees = await response.json();
+
+    displayEmployees();
+  }
+
+  function displayEmployees(){
+    const table = document.getElementById("employeeTable");
+    table.innerHTML = "";
+
+    employees.forEach(emp => {
+      table.innerHTML += `
+        <tr>
+          <td>${emp.id}</td>
+          <td>${emp.name}</td>
+          <td>${emp.role}</td>
+          <td>₹${emp.salary}</td>
+          <td>
+            <button class="delete" onclick="deleteEmployee(${emp.id})">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  function addEmployee(){
+    const name = document.getElementById("name").value;
+    const role = document.getElementById("role").value;
+    const salary = document.getElementById("salary").value;
+
+    if(name === "" || role === "" || salary === ""){
+      alert("Please fill all fields");
+      return;
+    }
+
+    const newEmployee = {
+      id: employees.length + 1,
+      name,
+      role,
+      salary
+    };
+
+    employees.push(newEmployee);
+    displayEmployees();
+
+    document.getElementById("name").value = "";
+    document.getElementById("role").value = "";
+    document.getElementById("salary").value = "";
+  }
+
+  function deleteEmployee(id){
+    employees = employees.filter(emp => emp.id !== id);
+    displayEmployees();
+  }
+
+  // Initial load
+  fetchEmployees();
+</script>
+
+</body>
+</html>

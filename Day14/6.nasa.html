@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NASA Picture of the Day</title>
+
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    background:#0b1d2a;
+    color:#fff;
+    padding:20px;
+  }
+
+  h1{
+    text-align:center;
+    margin-bottom:20px;
+  }
+
+  .container{
+    max-width:700px;
+    margin:auto;
+    background:#102a43;
+    padding:20px;
+    border-radius:8px;
+  }
+
+  input{
+    padding:10px;
+    margin-bottom:15px;
+    width:100%;
+  }
+
+  img, iframe{
+    width:100%;
+    border-radius:6px;
+    margin:15px 0;
+  }
+
+  .title{
+    font-size:22px;
+    font-weight:bold;
+  }
+
+  .date{
+    color:#a8c6df;
+    margin-bottom:10px;
+  }
+
+  .error{
+    color:#ff6b6b;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>🚀 NASA Picture of the Day</h1>
+
+<div class="container">
+
+  <input type="date" id="datePicker">
+
+  <div id="content"></div>
+
+</div>
+
+<script>
+  const apiKey = "DEMO_KEY";
+  const content = document.getElementById("content");
+  const datePicker = document.getElementById("datePicker");
+
+  // Set today's date as default
+  datePicker.valueAsDate = new Date();
+
+  async function fetchAPOD(date = ""){
+    try{
+      let url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
+      if(date) url += `&date=${date}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      displayAPOD(data);
+    }
+    catch(err){
+      content.innerHTML = "<p class='error'>Failed to fetch NASA data</p>";
+    }
+  }
+
+  function displayAPOD(data){
+    let media = "";
+
+    if(data.media_type === "image"){
+      media = `<img src="${data.url}" alt="NASA APOD">`;
+    }else if(data.media_type === "video"){
+      media = `<iframe src="${data.url}" frameborder="0" allowfullscreen></iframe>`;
+    }
+
+    content.innerHTML = `
+      <div class="title">${data.title}</div>
+      <div class="date">${data.date}</div>
+      ${media}
+      <p>${data.explanation}</p>
+    `;
+  }
+
+  datePicker.addEventListener("change", () => {
+    fetchAPOD(datePicker.value);
+  });
+
+  // Load today's APOD on start
+  fetchAPOD();
+</script>
+
+</body>
+</html>

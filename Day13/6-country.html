@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Country Explorer</title>
+
+<style>
+  body{
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+    padding:20px;
+  }
+  h1{text-align:center;}
+  .box{
+    max-width:600px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+  }
+  input,select{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+  }
+  .details{
+    text-align:center;
+    margin-top:20px;
+  }
+  img{width:150px;border:1px solid #ccc;}
+</style>
+</head>
+
+<body>
+
+<h1>🌍 Country Explorer</h1>
+
+<div class="box">
+  <input type="text" id="search" placeholder="Search country">
+  <select id="countrySelect">
+    <option value="">Select a country</option>
+  </select>
+  <div class="details" id="details"></div>
+</div>
+
+<script>
+  let countries = [];
+
+  async function loadCountries(){
+    try{
+      const res = await fetch(
+        "https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags,cca3"
+      );
+      countries = await res.json();
+      fillDropdown(countries);
+    }catch(err){
+      alert("Failed to fetch country data");
+    }
+  }
+
+  function fillDropdown(list){
+    const select = document.getElementById("countrySelect");
+    select.innerHTML = '<option value="">Select a country</option>';
+
+    list.sort((a,b)=>a.name.common.localeCompare(b.name.common))
+        .forEach(c=>{
+          const opt = document.createElement("option");
+          opt.value = c.cca3;
+          opt.textContent = c.name.common;
+          select.appendChild(opt);
+        });
+  }
+
+  document.getElementById("countrySelect").addEventListener("change",()=>{
+    const code = countrySelect.value;
+    const c = countries.find(x=>x.cca3===code);
+    if(!c) return;
+
+    details.innerHTML = `
+      <img src="${c.flags.png}">
+      <p><b>Capital:</b> ${c.capital ? c.capital[0] : "N/A"}</p>
+      <p><b>Region:</b> ${c.region}</p>
+      <p><b>Population:</b> ${c.population.toLocaleString()}</p>
+    `;
+  });
+
+  document.getElementById("search").addEventListener("input",()=>{
+    const val = search.value.toLowerCase();
+    const filtered = countries.filter(c =>
+      c.name.common.toLowerCase().includes(val)
+    );
+    fillDropdown(filtered);
+  });
+
+  loadCountries();
+</script>
+
+</body>
+</html>
